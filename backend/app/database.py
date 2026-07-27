@@ -1,8 +1,10 @@
 #SQLALCHEMY ENGINE
 # involved : Current used DB, driver, address of DB, get connection, connection pool. 
-
+from collections.abc import Generator
 
 from sqlalchemy import URL, create_engine
+from sqlalchemy.orm import Session, sessionmaker
+
 from app.config import settings
 
 database_url = URL.create(
@@ -16,3 +18,15 @@ database_url = URL.create(
 
 #core connection backend x DB
 engine= create_engine(database_url) #connection pool 
+
+SessionLocal = sessionmaker(bind=engine)
+
+def get_db() -> Generator[Session, None, None]:
+    db = SessionLocal()
+
+    try: 
+        yield db # open session, and connection still on after the endpoint 
+                # so the procces remain, and could be continue
+
+    finally: #close sesion
+        db.close()

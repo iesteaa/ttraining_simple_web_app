@@ -8,7 +8,7 @@ class Task(BaseModel):
     id: int
     title: str
     completed: bool = False
-    related_task: int
+    related_task: int | None = None
 
 class TaskUpdate(BaseModel):
     title: str | None= Field(default=None, min_length=1, max_length=100)

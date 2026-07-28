@@ -3,9 +3,12 @@
 from collections.abc import Generator
 
 from sqlalchemy import URL, create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from app.config import settings
+
+class Base(DeclarativeBase):
+    pass
 
 database_url = URL.create(
     drivername="postgresql+psycopg", #dialect,driver

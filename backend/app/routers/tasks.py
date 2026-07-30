@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
 from app.database import get_db
 from app.models import Task as TaskModel
@@ -20,9 +21,6 @@ router = APIRouter(
     prefix = "/tasks",
     tags = ["Tasks"],
 )
-
-tasks: list[TaskSchema] = []
-next_task_id = 1
 
 @router.post("",
           response_model=TaskSchema, #response yang dikembalikan dari backend
@@ -51,24 +49,27 @@ def create_task(task_data: TaskCreate, db: DatabaseSession) -> TaskModel:
 
 @router.get("", response_model=list[TaskSchema])
 
-def get_task() -> list[TaskSchema]:
-    return tasks
+def get_task(db: DatabaseSession) -> list[TaskSchema]:
+    statement = select(TaskModel).order_by(TaskModel.id)
+
+    return list(db.scalars(statement).all())
 
 @router.get(
         "/{task_id}", 
         response_model=TaskSchema)
 
-def get_task_id(task_id:int) -> TaskSchema:
-    for task in tasks:
-        if task.id == task_id:
-            return task
+def get_task_id(task_id: int, db: DatabaseSession) -> TaskModel:
+    task = db.get(TaskModel, task_id)
+
+    if task is not None:
+        return task
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                          detail="Task not found")
 
 @router.patch("/{task_id}", response_model=TaskSchema)
 
-def update_task(task_id:int, task_data:TaskUpdate) -> TaskSchema:
+def update_task(task_id: int, task_data: TaskUpdate, db: DatabaseSession) -> TaskSchema:
     update_data= task_data.model_dump(exclude_unset=True)
 
     if not update_data:
@@ -89,28 +90,44 @@ def update_task(task_id:int, task_data:TaskUpdate) -> TaskSchema:
             detail="Completed cannot be null"
         )
 
-    for index, task in enumerate(tasks):
-        if task.id == task_id:
-            updated_task = task.model_copy(update=update_data)
+    task = db.get(TaskModel, task_id)
 
-            tasks[index] = updated_task
-            return updated_task
+    if task is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Task not found",
+        )
 
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="Task not found",
-    )
+    for field, value in update_data.items():
+        setattr(task, field, value)
+
+    try:
+        db.commit()
+    except SQLAlchemyError:
+        db.rollback()
+        raise
+
+    db.refresh(task)
+
+    return task
 
 @router.delete("/{task_id}", 
                status_code=status.HTTP_204_NO_CONTENT)
 
-def delete_task(task_id: int) -> Response:
-    for index, task in enumerate(tasks):
-            if task.id == task_id:
-                tasks.pop(index)
+def delete_task(task_id: int, db: DatabaseSession) -> Response:
+    task = db.get(TaskModel, task_id)
 
-                return Response(status_code=status.HTTP_204_NO_CONTENT) 
+    if task is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail = "Task cannot be found",
+        )
 
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail = "Task cannot be found")
+    try:
+        db.delete(task)
+        db.commit()
+    except SQLAlchemyError:
+        db.rollback()
+        raise
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

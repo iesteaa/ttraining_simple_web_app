@@ -35,13 +35,13 @@ FastAPI server                ✅ Complete
 Task CRUD API                 ✅ Complete
 Validation and HTTP errors    ✅ Complete
 APIRouter refactor            ✅ Complete
-SQLite + SQLAlchemy           ⏭️ Next stage
+SQLAlchemy + PostgreSQL       ✅ Complete
 Automated backend tests       ⏳ Pending
 CORS configuration            ⏳ Pending
 Frontend-backend wiring       ⏳ Pending
 ```
 
-The backend currently stores task data in memory. Data disappears when the backend server restarts. The next stage replaces this temporary storage with SQLite and SQLAlchemy.
+The backend now persists task data through SQLAlchemy and PostgreSQL. The next stage focuses on automated backend tests and isolated test data.
 
 ## Technology Stack
 
@@ -51,7 +51,7 @@ The backend currently stores task data in memory. Data disappears when the backe
 | Backend | Python, FastAPI |
 | Validation | Pydantic |
 | Routing | FastAPI `APIRouter` |
-| Database | SQLite and SQLAlchemy — planned |
+| Database | PostgreSQL with SQLAlchemy and Alembic |
 | Backend testing | Pytest and FastAPI TestClient — planned |
 | Version control | Git |
 | Development environment | Visual Studio Code, WSL Ubuntu / Bash |
@@ -64,10 +64,16 @@ simple-web-app/
 │   ├── .venv/
 │   ├── app/
 │   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── models.py
 │   │   ├── schemas.py
 │   │   └── routers/
 │   │       ├── __init__.py
 │   │       └── tasks.py
+│   ├── alembic/
+│   ├── check_database.py
+│   ├── check_models.py
 │   ├── main.py
 │   └── requirements.txt
 │
@@ -91,7 +97,17 @@ simple-web-app/
 backend/main.py
 → Creates and configures the FastAPI application
 → Provides general endpoints such as / and /health
+→ Provides /health/database for live database connectivity checks
 → Includes feature routers
+
+backend/app/config.py
+→ Loads PostgreSQL settings from environment variables
+
+backend/app/database.py
+→ Builds the SQLAlchemy engine and session dependency
+
+backend/app/models.py
+→ Defines the Task ORM model and database table mapping
 
 backend/app/schemas.py
 → Defines request and response schemas
@@ -100,7 +116,7 @@ backend/app/schemas.py
 backend/app/routers/tasks.py
 → Contains task CRUD endpoints
 → Handles task-related validation and HTTP errors
-→ Currently uses temporary in-memory storage
+→ Persists tasks through the SQLAlchemy session
 ```
 
 ## Implemented API
@@ -112,6 +128,7 @@ backend/app/routers/tasks.py
 | Read one task | `GET` | `/tasks/{task_id}` | `200 OK` or `404` |
 | Update task | `PATCH` | `/tasks/{task_id}` | `200 OK` or `404` |
 | Delete task | `DELETE` | `/tasks/{task_id}` | `204 No Content` or `404` |
+| Database health | `GET` | `/health/database` | `200 OK` or database error |
 | Health check | `GET` | `/health` | `200 OK` |
 
 ## Run the Backend
@@ -124,6 +141,18 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 fastapi dev --entrypoint main:app
 ```
+
+The backend expects PostgreSQL connection values from the root `.env` file:
+
+```text
+POSTGRES_USER
+POSTGRES_PASSWORD
+POSTGRES_DB
+POSTGRES_HOST
+POSTGRES_PORT
+```
+
+If you are using Docker Compose, start the database and backend together so the application can reach the `db` service.
 
 Backend addresses:
 

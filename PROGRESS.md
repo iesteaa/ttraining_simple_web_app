@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-07-23  
-**Current phase:** Backend Core v1 completed; preparing SQLite and SQLAlchemy integration
+**Last updated:** 2026-07-30
+**Current phase:** Database persistence completed with SQLAlchemy and PostgreSQL; preparing automated backend tests
 
 ## Project Status
 
@@ -14,7 +14,7 @@
 | Pydantic validation | ✅ Complete |
 | HTTP status and error handling | ✅ Complete |
 | APIRouter refactor | ✅ Complete |
-| SQLite and SQLAlchemy | ⏭️ Next |
+| SQLAlchemy and PostgreSQL persistence | ✅ Complete |
 | Automated backend testing | ⏳ Pending |
 | CORS | ⏳ Pending |
 | Frontend task interface | ⏳ Pending |
@@ -74,6 +74,15 @@
 - [x] Re-tested CRUD after refactoring
 - [x] Standardized the task resource path as `/tasks`
 
+### Database Persistence
+
+- [x] Created `app/config.py` for Postgres settings
+- [x] Created `app/database.py` for the SQLAlchemy engine and session factory
+- [x] Created `app/models.py` for the Task ORM model
+- [x] Wired `app/routers/tasks.py` to use database sessions
+- [x] Added `GET /health/database` for live connectivity checks
+- [x] Added Alembic metadata wiring for migrations
+
 ## Current API Contract
 
 ```text
@@ -85,25 +94,14 @@ DELETE /tasks/{task_id}
 GET    /health
 ```
 
-## Immediate Next Checkpoint — Database Persistence
+## Immediate Next Checkpoint — Automated Backend Testing
 
-- [ ] Install SQLAlchemy
-- [ ] Save the dependency to `requirements.txt`
-- [ ] Create `app/database.py`
-- [ ] Configure the SQLite database URL
-- [ ] Create the SQLAlchemy engine
-- [ ] Create a session factory
-- [ ] Create the database-session dependency
-- [ ] Create `app/models.py`
-- [ ] Define the Task ORM model
-- [ ] Create the task table
-- [ ] Replace in-memory POST logic
-- [ ] Replace in-memory GET logic
-- [ ] Replace in-memory PATCH logic
-- [ ] Replace in-memory DELETE logic
-- [ ] Restart the backend
-- [ ] Confirm that task data remains available
-- [ ] Explain the difference between Pydantic schema and ORM model
+- [ ] Install and configure Pytest
+- [ ] Use FastAPI TestClient against the application
+- [ ] Create an isolated test database or transactional test setup
+- [ ] Test successful CRUD behavior
+- [ ] Test validation and missing-resource behavior
+- [ ] Confirm the test suite runs from one command
 
 ## Later Checkpoints
 
@@ -176,6 +174,49 @@ Copy this section after each learning session.
 
 - The next smallest task is:
 ```
+
+## Session: 2026-07-30 — Documentation Sync for Persistence Layer
+
+### Goal
+
+- Align the learning documents with the current backend architecture and completed progress.
+
+### Changes Made
+
+- File changed: `README.md`
+- File changed: `LEARNING_PLAN.md`
+- File changed: `PROGRESS.md`
+- Endpoint or feature added: documentation now reflects SQLAlchemy + PostgreSQL persistence and `/health/database`.
+- Configuration changed: progress and learning-stage status updated to match the live backend.
+
+### Concepts Learned
+
+- PostgreSQL-backed persistence is now the real storage layer, not in-memory data.
+- FastAPI route handlers now depend on SQLAlchemy sessions.
+- Alembic tracks ORM metadata rather than route code.
+
+### Tests Performed
+
+- [x] Current backend files inspected for architecture consistency
+- [x] Documentation checked against the compose-based Postgres setup
+- [ ] Successful case tested
+- [ ] Invalid input tested
+- [ ] Missing resource tested
+- [ ] Behavior after restart tested, when relevant
+
+### Problems and Debugging
+
+- Error or unexpected behavior: the learning docs still described SQLite and in-memory storage.
+- Root cause: the code had moved to PostgreSQL persistence, but the documentation had not been updated.
+- Fix: synchronized the docs with the current backend implementation and progress state.
+
+### Result
+
+- [x] Completed
+
+### Next Action
+
+- The next smallest task is: add automated backend tests for the PostgreSQL-backed CRUD API.
 
 ## Update Rules
 

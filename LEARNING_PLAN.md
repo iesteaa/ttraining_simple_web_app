@@ -185,21 +185,23 @@ app/routers/tasks.py
 
 ---
 
-## Phase 5 — SQLite and SQLAlchemy Persistence
+## Phase 5 — SQLAlchemy Persistence with PostgreSQL
 
-**Status:** Next
+**Status:** Complete
 
 ### Concepts
 
 - Database, table, row, and column
 - Primary key
-- SQLite
+- PostgreSQL
 - SQLAlchemy ORM
 - Database engine
 - Session and transaction
 - `commit`, `refresh`, and query
 - ORM model versus Pydantic schema
 - FastAPI dependency injection with `Depends`
+- Environment-driven database configuration
+- Alembic metadata wiring
 
 ### Planned Structure
 
@@ -215,26 +217,28 @@ backend/app/
 ### Implementation Goals
 
 - Install SQLAlchemy
-- Configure SQLite connection
+- Configure PostgreSQL connection through settings
 - Create `Task` ORM model
 - Create task table
 - Create database session dependency
 - Replace the in-memory list with database queries
 - Preserve the existing API contract
+- Add a live database health check endpoint
 
 ### Checkpoint
 
-- [ ] SQLAlchemy is installed
-- [ ] SQLite database file is created
-- [ ] `database.py` creates the engine and session factory
-- [ ] `models.py` defines the Task table
-- [ ] `POST /tasks` inserts a database row
-- [ ] `GET /tasks` queries the database
-- [ ] `GET /tasks/{task_id}` queries by primary key
-- [ ] `PATCH /tasks/{task_id}` updates a database row
-- [ ] `DELETE /tasks/{task_id}` deletes a database row
-- [ ] Data remains after backend restart
-- [ ] Learner can explain schema versus ORM model
+- [x] SQLAlchemy is installed
+- [x] PostgreSQL settings are loaded from the environment
+- [x] `database.py` creates the engine and session factory
+- [x] `models.py` defines the Task table
+- [x] `POST /tasks` inserts a database row
+- [x] `GET /tasks` queries the database
+- [x] `GET /tasks/{task_id}` queries by primary key
+- [x] `PATCH /tasks/{task_id}` updates a database row
+- [x] `DELETE /tasks/{task_id}` deletes a database row
+- [x] `GET /health/database` checks live connectivity
+- [x] Data remains after backend restart
+- [x] Learner can explain schema versus ORM model
 
 ---
 

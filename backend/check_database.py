@@ -7,15 +7,11 @@ from app.database import engine
 def main() -> None:
     try:
         with engine.connect() as connection:
-            result = connection.execute(
-                text(
-                    """
+            result = connection.execute(text("""
                     SELECT
                         current_database(),
                         current_user
-                    """
-                )
-            )
+                    """))
 
             database_name, user_name = result.one()
 

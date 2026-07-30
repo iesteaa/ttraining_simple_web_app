@@ -3,6 +3,7 @@ from sqlalchemy import inspect
 from app.database import Base, engine
 from app.models import Task
 
+
 # Check if task table(models) registered in Base.metadata(DeclarativeBase)
 def main() -> None:
     print(f"ORM class: {Task.__name__}")

@@ -69,7 +69,7 @@ def get_task_id(task_id: int, db: DatabaseSession) -> TaskModel:
 
 @router.patch("/{task_id}", response_model=TaskSchema)
 
-def update_task(task_id: int, task_data: TaskUpdate, db: DatabaseSession) -> TaskSchema:
+def update_task(task_id: int, task_data: TaskUpdate, db: DatabaseSession) -> TaskModel:
     update_data= task_data.model_dump(exclude_unset=True)
 
     if not update_data:

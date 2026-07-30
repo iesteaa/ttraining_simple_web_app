@@ -1,14 +1,16 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
-class Taskcreate(BaseModel): #request body -> user input + validated by pydantic
+class TaskCreate(BaseModel): #request body -> user input + validated by pydantic
     title: str = Field(min_length=1, max_length=100)
-    related_task: int = Field(ge=1)
+    related: int = Field(ge=1)
 
 class Task(BaseModel):
+    model_config = ConfigDict(from_attributes=True) #allows pydantic response could access ORM
+
     id: int
     title: str
     completed: bool = False
-    related_task: int | None = None
+    related: int | None = None
 
 class TaskUpdate(BaseModel):
     title: str | None= Field(default=None, min_length=1, max_length=100)

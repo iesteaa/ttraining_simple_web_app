@@ -3,7 +3,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.database import Base
 
-#Define table structure in ORM form
+
+# Define table structure in ORM form
 class Task(Base):
     __tablename__ = "tasks"
 

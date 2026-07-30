@@ -1,9 +1,13 @@
 # Read Web Configuration
 from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-PROJECT_ROOT= Path(__file__).resolve().parents[2] #simple-web-app/ (root parent project)
-ENV_FILE= PROJECT_ROOT/".env"
+PROJECT_ROOT = (
+    Path(__file__).resolve().parents[2]
+)  # simple-web-app/ (root parent project)
+ENV_FILE = PROJECT_ROOT / ".env"
+
 
 class Settings(BaseSettings):
     postgres_user: str
@@ -18,4 +22,6 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-settings = Settings()
+
+# Values are injected from environment/.env at runtime by pydantic-settings.
+settings = Settings()  # type: ignore[call-arg]

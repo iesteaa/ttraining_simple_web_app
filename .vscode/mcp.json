@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "vuetify": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@vuetify/mcp"]
+    }
+  }
+}

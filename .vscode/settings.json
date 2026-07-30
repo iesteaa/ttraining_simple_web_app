@@ -1,0 +1,8 @@
+{
+  "github.copilot.chat.planAgent.additionalTools": [
+    "vuetify/get_component_api_by_version",
+    "vuetify/get_feature_guides",
+    "vuetify/get_feature_guide",
+    "vuetify/get_exposed_exports"
+  ]
+}

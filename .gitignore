@@ -15,6 +15,7 @@ frontend/dist/
 
 # Environment variables
 .env
+.env.test
 **/.env
 
 # Database

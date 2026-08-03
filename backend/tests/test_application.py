@@ -1,16 +1,22 @@
-
 from fastapi.testclient import TestClient
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 
 
-def test_openapi_document_is_available(client: TestClient) -> None:
-        expected_path = "/tasks"
+def test_openapi_document_is_available(
+    client: TestClient,
+) -> None:
+    response = client.get("/openapi.json")
 
-        response = client.get("/openapi.json")
+    assert response.status_code == 200
+    assert "/tasks" in response.json()["paths"]
 
-        assert response.status_code == 200
 
-        response_body = response.json()
+def test_test_database_is_used(
+    db_session: Session,
+) -> None:
+    database_name = db_session.scalar(
+        text("SELECT current_database()")
+    )
 
-        assert "openapi" in response_body
-        assert "paths" in response_body
-        assert expected_path in response_body["paths"]
+    assert database_name == "task_app_test_db"

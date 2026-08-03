@@ -76,18 +76,7 @@ def update_task(task_id: int, task_data: TaskUpdate, db: DatabaseSession) -> Tas
     if not update_data:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="At least one field must be provided",
-        )
-
-    if "title" in update_data and update_data["title"] is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Title cannot be null",
-        )
-
-    if "completed" in update_data and update_data["completed"] is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Completed cannot be null"
+            detail="No fields provided for update",
         )
 
     task = db.get(TaskModel, task_id)
@@ -119,7 +108,7 @@ def delete_task(task_id: int, db: DatabaseSession) -> Response:
     if task is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Task cannot be found",
+            detail="Task not found",
         )
 
     try:

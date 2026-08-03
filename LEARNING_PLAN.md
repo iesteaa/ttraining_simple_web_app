@@ -244,7 +244,7 @@ backend/app/
 
 ## Phase 6 — Automated Backend Tests
 
-**Status:** In progress
+**Status:** Complete
 
 ### Concepts
 
@@ -273,12 +273,12 @@ DELETE success and missing task
 
 ### Checkpoint
 
-- [ ] Pytest is installed
-- [ ] TestClient can call the FastAPI application
-- [ ] Tests use isolated database data
-- [ ] Success paths are tested
-- [ ] Error paths are tested
-- [ ] All tests pass from one command
+- [x] Pytest is installed
+- [x] TestClient can call the FastAPI application
+- [x] Tests use isolated database data
+- [x] Success paths are tested
+- [x] Error paths are tested
+- [x] All tests pass from one command
 
 ---
 

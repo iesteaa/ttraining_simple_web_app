@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
 **Last updated:** 2026-08-03
-**Current phase:** Automated backend tests are in progress
+**Current phase:** Automated backend tests are complete; configuration and CORS are next
 
 ## Project Status
 
@@ -15,7 +15,7 @@
 | HTTP status and error handling | ✅ Complete |
 | APIRouter refactor | ✅ Complete |
 | SQLAlchemy and PostgreSQL persistence | ✅ Complete |
-| Automated backend testing | 🟡 In progress |
+| Automated backend testing | ✅ Complete |
 | CORS | ⏳ Pending |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
@@ -91,18 +91,19 @@ GET    /tasks
 GET    /tasks/{task_id}
 PATCH  /tasks/{task_id}
 DELETE /tasks/{task_id}
+GET    /health/database
 GET    /health
 ```
 
-## Immediate Next Checkpoint — Automated Backend Testing
+## Immediate Next Checkpoint — Configuration and CORS
 
 - [x] Confirm the Compose test database service exists for isolation
-- [ ] Install and configure Pytest
-- [ ] Use FastAPI TestClient against the application
-- [ ] Create an isolated test database or transactional test setup
-- [ ] Test successful CRUD behavior
-- [ ] Test validation and missing-resource behavior
-- [ ] Confirm the test suite runs from one command
+- [x] Install and configure Pytest
+- [x] Use FastAPI TestClient against the application
+- [x] Create an isolated test database or transactional test setup
+- [x] Test successful CRUD behavior
+- [x] Test validation and missing-resource behavior
+- [x] Confirm the test suite runs from one command
 
 ## Reproducibility Notes
 
@@ -115,11 +116,11 @@ GET    /health
 
 ### Automated Backend Testing
 
-- [ ] Install and configure Pytest
-- [ ] Use FastAPI TestClient
-- [ ] Create an isolated test database
-- [ ] Test successful CRUD behavior
-- [ ] Test validation and missing-resource behavior
+- [x] Install and configure Pytest
+- [x] Use FastAPI TestClient
+- [x] Create an isolated test database
+- [x] Test successful CRUD behavior
+- [x] Test validation and missing-resource behavior
 
 ### CORS and Configuration
 

@@ -50,7 +50,7 @@ Environment setup             ✅ Complete
 FastAPI CRUD API              ✅ Complete
 SQLAlchemy + PostgreSQL       ✅ Complete
 Docker Compose runtime        ✅ Complete
-Automated backend tests       ⏳ In progress
+Automated backend tests       ✅ Complete
 CORS configuration            ⏳ Pending
 Frontend-backend wiring       ⏳ Pending
 ```
@@ -90,6 +90,7 @@ Source of truth:
 
 - FastAPI application with `/`, `/health`, and CRUD task endpoints.
 - PostgreSQL-backed persistence with SQLAlchemy and Alembic.
+- Automated backend tests with isolated database fixtures.
 - Docker Compose services for backend, frontend, and database.
 - VS Code tasks that run format, lint, typecheck, and tests inside containers.
 - Local WSL editing with containerized application runtime.
@@ -160,19 +161,17 @@ Reproducibility notes:
 
 ## Next Stage
 
-The next stage is **Automated Backend Tests**.
+The next stage is **Configuration and CORS**.
 
-The goal is to verify the PostgreSQL-backed CRUD API with isolated test data so regressions are caught early.
+The goal is to keep runtime configuration explicit and allow browser-based requests from the Vue frontend.
 
-Planned testing focus:
+Planned focus:
 
 ```text
-POST success and validation failure
-GET all
-GET one
-GET missing task
-PATCH success and invalid input
-DELETE success and missing task
+Backend settings
+.env example files
+Allowed frontend origin
+CORS policy
 ```
 
 ## Repository Principle

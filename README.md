@@ -1,12 +1,12 @@
 # End-to-End Web Learning Project
 
-A simple task-management web application built as a **learning-by-practice repository** for understanding how a frontend, backend, API, database, testing, and deployment fit together.
+A small task-management web application used to learn and demonstrate how a frontend, backend, API, database, testing, and Docker Compose workflow fit together.
 
-This repository is intentionally developed step by step. Each stage introduces one main concept, applies it in code, tests it, and records the result before moving forward.
+The repository is written as a learning log, but it is also intended to be readable during a supervisor review. The documentation therefore focuses on what exists now, how to run it, and what remains next.
 
-## Learning Goal
+## Overview
 
-By completing this project, learners should be able to understand and build this flow:
+Current application flow:
 
 ```text
 User interaction
@@ -19,29 +19,43 @@ Business logic and validation
       ↓
 SQLAlchemy ORM
       ↓
-SQLite database
+PostgreSQL database
       ↓
 JSON response
       ↓
 Vue state and UI update
 ```
 
+## Quick Start
+
+1. Copy the example environment files if you do not already have local ones:
+
+```bash
+cp .env.example .env
+cp .env.test.example .env.test
+```
+
+2. Start the full application runtime with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+3. Keep VS Code running locally in WSL and use the workspace tasks for format, lint, typecheck, and tests. Those tasks execute through `docker compose exec`.
+
 ## Current Status
 
 ```text
 Environment setup             ✅ Complete
-Vue + TypeScript setup        ✅ Complete
-FastAPI server                ✅ Complete
-Task CRUD API                 ✅ Complete
-Validation and HTTP errors    ✅ Complete
-APIRouter refactor            ✅ Complete
+FastAPI CRUD API              ✅ Complete
 SQLAlchemy + PostgreSQL       ✅ Complete
-Automated backend tests       ⏳ Pending
+Docker Compose runtime        ✅ Complete
+Automated backend tests       ⏳ In progress
 CORS configuration            ⏳ Pending
 Frontend-backend wiring       ⏳ Pending
 ```
 
-The backend now persists task data through SQLAlchemy and PostgreSQL. The next stage focuses on automated backend tests and isolated test data.
+The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, while VS Code stays local in WSL.
 
 ## Technology Stack
 
@@ -49,75 +63,36 @@ The backend now persists task data through SQLAlchemy and PostgreSQL. The next s
 |---|---|
 | Frontend | Vue 3, Vite, TypeScript |
 | Backend | Python, FastAPI |
-| Validation | Pydantic |
-| Routing | FastAPI `APIRouter` |
-| Database | PostgreSQL with SQLAlchemy and Alembic |
-| Backend testing | Pytest and FastAPI TestClient — planned |
-| Version control | Git |
+| Database | PostgreSQL, SQLAlchemy, Alembic |
+| Runtime | Docker, Docker Compose |
+| Testing | Pytest, FastAPI TestClient, Vitest |
+| Tooling | Black, Ruff, ESLint, Oxlint, Prettier |
 | Development environment | Visual Studio Code, WSL Ubuntu / Bash |
 
-## Current Project Structure
+## Version Requirements
 
-```text
-simple-web-app/
-├── backend/
-│   ├── .venv/
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── models.py
-│   │   ├── schemas.py
-│   │   └── routers/
-│   │       ├── __init__.py
-│   │       └── tasks.py
-│   ├── alembic/
-│   ├── check_database.py
-│   ├── check_models.py
-│   ├── main.py
-│   └── requirements.txt
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── tsconfig.json
-│   └── vite.config.ts
-│
-├── .gitignore
-├── README.md
-├── LEARNING_PLAN.md
-└── PROGRESS.md
-```
+These versions are pinned or documented so the setup stays reproducible across machines:
 
-### Backend Responsibilities
+| Component | Version |
+|---|---|
+| Python | 3.12.10 |
+| Node.js | 22.x |
+| PostgreSQL | 17.10 |
 
-```text
-backend/main.py
-→ Creates and configures the FastAPI application
-→ Provides general endpoints such as / and /health
-→ Provides /health/database for live database connectivity checks
-→ Includes feature routers
+Source of truth:
 
-backend/app/config.py
-→ Loads PostgreSQL settings from environment variables
+- Python version: [`.python-version`](./.python-version)
+- Backend image: [`backend/Dockerfile`](./backend/Dockerfile)
+- Frontend engine requirement: [`frontend/package.json`](./frontend/package.json)
+- Database image: [`compose.yaml`](./compose.yaml)
 
-backend/app/database.py
-→ Builds the SQLAlchemy engine and session dependency
+## What Is Implemented
 
-backend/app/models.py
-→ Defines the Task ORM model and database table mapping
-
-backend/app/schemas.py
-→ Defines request and response schemas
-→ Contains TaskCreate, TaskUpdate, and Task
-
-backend/app/routers/tasks.py
-→ Contains task CRUD endpoints
-→ Handles task-related validation and HTTP errors
-→ Persists tasks through the SQLAlchemy session
-```
+- FastAPI application with `/`, `/health`, and CRUD task endpoints.
+- PostgreSQL-backed persistence with SQLAlchemy and Alembic.
+- Docker Compose services for backend, frontend, and database.
+- VS Code tasks that run format, lint, typecheck, and tests inside containers.
+- Local WSL editing with containerized application runtime.
 
 ## Implemented API
 
@@ -131,18 +106,17 @@ backend/app/routers/tasks.py
 | Database health | `GET` | `/health/database` | `200 OK` or database error |
 | Health check | `GET` | `/health` | `200 OK` |
 
-## Run the Backend
+## Run the Application with Docker Compose
 
-From the project root:
+This repository is set up so the application runtime runs in Docker Compose while VS Code stays local in WSL. Edit code in the workspace as usual, then start the services from the project root:
 
 ```bash
-cd backend
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-fastapi dev --entrypoint main:app
+docker compose up --build
 ```
 
-The backend expects PostgreSQL connection values from the root `.env` file:
+The backend and frontend use bind mounts, so file changes in WSL are reflected inside the containers.
+
+The backend expects PostgreSQL connection values from the root `.env` file, and inside Compose it reaches the database through the service name `db`:
 
 ```text
 POSTGRES_USER
@@ -152,100 +126,53 @@ POSTGRES_HOST
 POSTGRES_PORT
 ```
 
-If you are using Docker Compose, start the database and backend together so the application can reach the `db` service.
+For test runs, the Compose test database service is named `db_test`.
 
-Backend addresses:
+Development workflow summary:
+
+- Edit code in WSL and save normally.
+- Use `docker compose up --build` for the application runtime.
+- Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for checks.
+- Keep `.env` and `.env.test` aligned with the Compose service names.
+
+Application addresses:
 
 ```text
 API:          http://127.0.0.1:8000
 Swagger UI:   http://127.0.0.1:8000/docs
 OpenAPI JSON: http://127.0.0.1:8000/openapi.json
+Frontend:     http://localhost:5173
 ```
 
-## Run the Frontend
+Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for backend and frontend checks; they execute through `docker compose exec`.
 
-Open another terminal:
+Reproducibility notes:
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+- `docker compose up --build` is the primary entry point for the app runtime.
+- Backend and frontend dependencies are installed inside images, not on the host.
+- Python and Node versions are pinned or documented so the runtime matches across machines.
+- PostgreSQL runs as the Compose service `db`, and test runs use `db_test`.
 
-The frontend normally runs at:
+## Documentation
 
-```text
-http://localhost:5173
-```
-
-The frontend environment is ready, but the task interface and API connection have not yet been implemented.
-
-## How to Use This Repository for Learning
-
-Follow the repository in stage order rather than copying the final code immediately.
-
-For each stage:
-
-1. Read the concepts and target behavior in [`LEARNING_PLAN.md`](./LEARNING_PLAN.md).
-2. Implement one small change.
-3. Run the application.
-4. Test both successful and failed cases.
-5. Explain the request flow in your own words.
-6. Update [`PROGRESS.md`](./PROGRESS.md).
-7. Create a Git commit before starting the next stage.
-
-Recommended learning cycle:
-
-```text
-Understand
-    ↓
-Implement
-    ↓
-Run
-    ↓
-Test
-    ↓
-Debug
-    ↓
-Explain
-    ↓
-Commit
-```
-
-## Learning Documents
-
-- [`LEARNING_PLAN.md`](./LEARNING_PLAN.md): ordered learning roadmap, concepts, implementation goals, and stage checkpoints.
-- [`PROGRESS.md`](./PROGRESS.md): current project status, completed checkpoints, next tasks, and a reusable work-session log.
-
-## Git Checkpoint Example
-
-After completing a learning stage:
-
-```bash
-git status
-git add .
-git commit -m "Complete task router refactor"
-```
-
-Use small commits that describe one completed learning objective.
+- [`LEARNING_PLAN.md`](./LEARNING_PLAN.md): stage roadmap and learning checkpoints.
+- [`PROGRESS.md`](./PROGRESS.md): current progress, completed checkpoints, and next tasks.
 
 ## Next Stage
 
-The next stage is **SQLite and SQLAlchemy persistence**.
+The next stage is **Automated Backend Tests**.
 
-The goal is to replace:
+The goal is to verify the PostgreSQL-backed CRUD API with isolated test data so regressions are caught early.
 
-```python
-tasks: list[Task] = []
-```
-
-with persistent database storage so task data remains available after the backend restarts.
-
-Planned new backend files:
+Planned testing focus:
 
 ```text
-backend/app/database.py
-backend/app/models.py
+POST success and validation failure
+GET all
+GET one
+GET missing task
+PATCH success and invalid input
+DELETE success and missing task
 ```
 
 ## Repository Principle

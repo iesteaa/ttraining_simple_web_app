@@ -1,6 +1,6 @@
 # End-to-End Web Development Learning Plan
 
-This document defines the learning sequence for the project. Each stage introduces a limited set of concepts and applies them directly to the task-management application.
+This document tracks the learning sequence for the project. It is kept concise so it stays useful for both personal study and supervisor review.
 
 ## Learning Method
 
@@ -244,7 +244,7 @@ backend/app/
 
 ## Phase 6 — Automated Backend Tests
 
-**Status:** Pending
+**Status:** In progress
 
 ### Concepts
 
@@ -257,6 +257,8 @@ backend/app/
 - Regression testing
 
 ### Implementation Goals
+
+- Confirm the Compose test database service already defined in `compose.yaml` is used for isolation
 
 Test at least:
 

@@ -1,6 +1,6 @@
 # frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This frontend is part of the project-wide Docker Compose workflow. Use the root [README.md](../README.md) for the primary setup instructions.
 
 ## Recommended IDE Setup
 
@@ -29,11 +29,19 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 npm install
 ```
 
+When working through Docker Compose, dependency installation happens inside the frontend container. The root workflow is:
+
+```sh
+docker compose up --build
+```
+
 ### Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
 ```
+
+In the Compose workflow, the equivalent dev server is started by the `frontend` service.
 
 ### Type-Check, Compile and Minify for Production
 
@@ -46,6 +54,8 @@ npm run build
 ```sh
 npm run test:unit
 ```
+
+The project also exposes this through Docker Compose-backed workspace tasks.
 
 ### Lint with [ESLint](https://eslint.org/)
 

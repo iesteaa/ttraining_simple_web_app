@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-07-30
-**Current phase:** Database persistence completed with SQLAlchemy and PostgreSQL; preparing automated backend tests
+**Last updated:** 2026-08-03
+**Current phase:** Automated backend tests are in progress
 
 ## Project Status
 
@@ -15,7 +15,7 @@
 | HTTP status and error handling | ✅ Complete |
 | APIRouter refactor | ✅ Complete |
 | SQLAlchemy and PostgreSQL persistence | ✅ Complete |
-| Automated backend testing | ⏳ Pending |
+| Automated backend testing | 🟡 In progress |
 | CORS | ⏳ Pending |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
@@ -96,12 +96,20 @@ GET    /health
 
 ## Immediate Next Checkpoint — Automated Backend Testing
 
+- [x] Confirm the Compose test database service exists for isolation
 - [ ] Install and configure Pytest
 - [ ] Use FastAPI TestClient against the application
 - [ ] Create an isolated test database or transactional test setup
 - [ ] Test successful CRUD behavior
 - [ ] Test validation and missing-resource behavior
 - [ ] Confirm the test suite runs from one command
+
+## Reproducibility Notes
+
+- App runtime runs in Docker Compose.
+- VS Code stays local in WSL.
+- Python version is pinned via [`.python-version`](./.python-version).
+- Runtime versions are documented in [README.md](./README.md) and the Dockerfiles.
 
 ## Later Checkpoints
 

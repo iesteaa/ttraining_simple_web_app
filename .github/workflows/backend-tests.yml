@@ -36,6 +36,7 @@ jobs:
       POSTGRES_DB: task_app_test_db
       POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
+      CORS_ORIGINS: 'http://localhost:3000,http://127.0.0.1:3000'
 
     defaults:
       run:

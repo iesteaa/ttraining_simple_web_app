@@ -1,4 +1,4 @@
-# Read Web Configuration
+# Runtime configuration 
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -15,6 +15,16 @@ class Settings(BaseSettings):
     postgres_db: str
     postgres_host: str
     postgres_port: int
+
+    cors_origins: str
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        return[
+            origin.strip().rstrip("/")
+            for origin in self.cors_origins.split(",")
+            if origin.strip()
+        ]
 
     model_config = SettingsConfigDict(
         env_file=ENV_FILE,

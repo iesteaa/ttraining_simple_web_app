@@ -33,19 +33,19 @@
     {
       "label": "backend: format check",
       "type": "shell",
-      "command": "docker compose exec backend python -m black --check .",
+      "command": "docker compose exec backend env RUFF_CACHE_DIR=/tmp/ruff-cache python -m ruff format --check .",
       "problemMatcher": []
     },
     {
       "label": "backend: lint",
       "type": "shell",
-      "command": "docker compose exec backend python -m ruff check .",
+      "command": "docker compose exec backend env RUFF_CACHE_DIR=/tmp/ruff-cache python -m ruff check .",
       "problemMatcher": []
     },
     {
       "label": "backend: typecheck",
       "type": "shell",
-      "command": "docker compose exec backend python -m mypy .",
+      "command": "docker compose exec backend env MYPY_CACHE_DIR=/tmp/mypy-cache python -m mypy .",
       "problemMatcher": []
     },
     {

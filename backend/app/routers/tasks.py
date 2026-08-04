@@ -7,13 +7,8 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Task as TaskModel
-from app.schemas import (
-    Task as TaskSchema,
-)
-from app.schemas import (
-    TaskCreate,
-    TaskUpdate,
-)
+from app.schemas import Task as TaskSchema
+from app.schemas import TaskCreate, TaskUpdate
 
 DatabaseSession = Annotated[Session, Depends(get_db)]
 

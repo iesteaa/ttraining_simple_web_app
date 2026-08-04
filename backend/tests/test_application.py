@@ -1,7 +1,8 @@
-from app.config import settings
 from fastapi.testclient import TestClient
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+
+from app.config import settings
 
 
 def test_openapi_document_is_available(

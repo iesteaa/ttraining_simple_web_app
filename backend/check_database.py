@@ -1,7 +1,6 @@
+from app.database import engine
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
-
-from app.database import engine
 
 
 def main() -> None:

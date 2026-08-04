@@ -1,7 +1,6 @@
-from sqlalchemy import inspect
-
 from app.database import Base, engine
 from app.models import Task
+from sqlalchemy import inspect
 
 
 # Check if task table(models) registered in Base.metadata(DeclarativeBase)

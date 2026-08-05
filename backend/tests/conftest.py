@@ -4,13 +4,13 @@ from collections.abc import Generator
 from pathlib import Path
 
 import pytest
-from alembic import command
-from alembic.config import Config
 from dotenv import load_dotenv
 from fastapi.testclient import TestClient
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from alembic import command
+from alembic.config import Config
 
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = BACKEND_ROOT.parent
@@ -26,7 +26,6 @@ if TEST_ENV_FILE.exists():
 from app.config import settings  # noqa: E402
 from app.database import engine, get_db  # noqa: E402
 from main import app  # noqa: E402
-
 
 EXPECTED_TEST_DATABASE = "task_app_test_db"
 
@@ -52,9 +51,7 @@ def migrated_test_database() -> Generator[None, None, None]:
 
     # Establish a predictable baseline at the start of the suite.
     with engine.begin() as connection:
-        connection.execute(
-            text("TRUNCATE TABLE tasks RESTART IDENTITY CASCADE")
-        )
+        connection.execute(text("TRUNCATE TABLE tasks RESTART IDENTITY CASCADE"))
 
     yield
 

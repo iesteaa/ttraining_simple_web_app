@@ -33,7 +33,13 @@
     {
       "label": "backend: format check",
       "type": "shell",
-      "command": "docker compose exec backend python -m black --check .",
+      "command": "docker compose exec backend python -m ruff format --check .",
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: import check",
+      "type": "shell",
+      "command": "docker compose exec backend python -m isort --check-only .",
       "problemMatcher": []
     },
     {
@@ -59,6 +65,7 @@
       "dependsOrder": "sequence",
       "dependsOn": [
         "backend: format check",
+        "backend: import check",
         "backend: lint",
         "backend: typecheck",
         "backend: tests"

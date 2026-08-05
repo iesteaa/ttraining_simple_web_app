@@ -5,6 +5,10 @@ backend/.venv/
 # Python cache
 __pycache__/
 *.pyc
+.mypy_cache/
+.ruff_cache/
+backend/.mypy_cache/
+backend/.ruff_cache/
 
 # Node dependencies
 frontend/node_modules/

@@ -31,9 +31,27 @@
       "problemMatcher": []
     },
     {
+      "label": "backend: import sort",
+      "type": "shell",
+      "command": "docker compose exec backend python -m isort .",
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: import sort check",
+      "type": "shell",
+      "command": "docker compose exec backend python -m isort --check-only .",
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: format",
+      "type": "shell",
+      "command": "docker compose exec backend python -m isort . && docker compose exec backend python -m black .",
+      "problemMatcher": []
+    },
+    {
       "label": "backend: format check",
       "type": "shell",
-      "command": "docker compose exec backend python -m black --check .",
+      "command": "docker compose exec backend python -m isort --check-only . && docker compose exec backend python -m black --check .",
       "problemMatcher": []
     },
     {

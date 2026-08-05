@@ -1,11 +1,9 @@
-# Runtime configuration 
+# Runtime configuration
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-PROJECT_ROOT = (
-    Path(__file__).resolve().parents[2]
-)  # simple-web-app/ (root parent project)
+PROJECT_ROOT = Path(__file__).resolve().parents[2]  # simple-web-app/ (root parent project)
 ENV_FILE = PROJECT_ROOT / ".env"
 
 
@@ -20,10 +18,8 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins_list(self) -> list[str]:
-        return[
-            origin.strip().rstrip("/")
-            for origin in self.cors_origins.split(",")
-            if origin.strip()
+        return [
+            origin.strip().rstrip("/") for origin in self.cors_origins.split(",") if origin.strip()
         ]
 
     model_config = SettingsConfigDict(

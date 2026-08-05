@@ -236,16 +236,12 @@ def test_delete_existing_task(
 
     task_id = created_task["id"]
 
-    delete_response = client.delete(
-        f"/tasks/{task_id}"
-    )
+    delete_response = client.delete(f"/tasks/{task_id}")
 
     assert delete_response.status_code == 204
     assert delete_response.content == b""
 
-    get_response = client.get(
-        f"/tasks/{task_id}"
-    )
+    get_response = client.get(f"/tasks/{task_id}")
 
     assert get_response.status_code == 404
 
@@ -264,8 +260,6 @@ def test_delete_missing_task_returns_404(
 def test_delete_task_rejects_non_integer_id(
     client: TestClient,
 ) -> None:
-    response = client.delete(
-        "/tasks/not-an-integer"
-    )
+    response = client.delete("/tasks/not-an-integer")
 
     assert response.status_code == 422

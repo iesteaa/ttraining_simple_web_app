@@ -11,7 +11,6 @@ from fastapi.testclient import TestClient
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = BACKEND_ROOT.parent
 TEST_ENV_FILE = PROJECT_ROOT / ".env.test"
@@ -22,11 +21,11 @@ if TEST_ENV_FILE.exists():
     load_dotenv(TEST_ENV_FILE, override=True)
 
 
+from main import app  # noqa: E402
+
 # These imports must happen after loading the test environment.
 from app.config import settings  # noqa: E402
 from app.database import engine, get_db  # noqa: E402
-from main import app  # noqa: E402
-
 
 EXPECTED_TEST_DATABASE = "task_app_test_db"
 
@@ -52,9 +51,7 @@ def migrated_test_database() -> Generator[None, None, None]:
 
     # Establish a predictable baseline at the start of the suite.
     with engine.begin() as connection:
-        connection.execute(
-            text("TRUNCATE TABLE tasks RESTART IDENTITY CASCADE")
-        )
+        connection.execute(text("TRUNCATE TABLE tasks RESTART IDENTITY CASCADE"))
 
     yield
 

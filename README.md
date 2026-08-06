@@ -66,7 +66,7 @@ The backend persists task data through SQLAlchemy and PostgreSQL. The applicatio
 | Database | PostgreSQL, SQLAlchemy, Alembic |
 | Runtime | Docker, Docker Compose |
 | Testing | Pytest, FastAPI TestClient, Vitest |
-| Tooling | Black, Ruff, ESLint, Oxlint, Prettier |
+| Tooling | Ruff Formatter, Ruff, Mypy, ESLint, Oxlint, Prettier |
 | Development environment | Visual Studio Code, WSL Ubuntu / Bash |
 
 ## Version Requirements

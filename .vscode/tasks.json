@@ -33,7 +33,13 @@
     {
       "label": "backend: format check",
       "type": "shell",
-      "command": "docker compose exec backend python -m black --check .",
+      "command": "docker compose exec backend python -m ruff format --check .",
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: format",
+      "type": "shell",
+      "command": "docker compose exec backend python -m ruff format .",
       "problemMatcher": []
     },
     {

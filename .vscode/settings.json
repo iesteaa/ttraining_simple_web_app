@@ -4,5 +4,9 @@
     "vuetify/get_feature_guides",
     "vuetify/get_feature_guide",
     "vuetify/get_exposed_exports"
-  ]
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
+  }
 }

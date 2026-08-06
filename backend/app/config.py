@@ -1,4 +1,4 @@
-# Runtime configuration 
+# Runtime configuration
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins_list(self) -> list[str]:
-        return[
+        return [
             origin.strip().rstrip("/")
             for origin in self.cors_origins.split(",")
             if origin.strip()

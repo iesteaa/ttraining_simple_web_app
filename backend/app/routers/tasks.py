@@ -79,6 +79,12 @@ def update_task(task_id: int, task_data: TaskUpdate, db: DatabaseSession) -> Tas
             detail="No fields provided for update",
         )
 
+    if any(value is None for value in update_data.values()):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Null values are not allowed",
+        )
+
     task = db.get(TaskModel, task_id)
 
     if task is None:

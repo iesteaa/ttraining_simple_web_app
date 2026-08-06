@@ -1,9 +1,8 @@
 from fastapi.testclient import TestClient
-
-from app.config import settings
-
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+
+from app.config import settings
 
 
 def test_openapi_document_is_available(
@@ -18,13 +17,14 @@ def test_openapi_document_is_available(
 def test_test_database_is_used(
     db_session: Session,
 ) -> None:
-    database_name = db_session.scalar(
-        text("SELECT current_database()")
-    )
+    database_name = db_session.scalar(text("SELECT current_database()"))
 
     assert database_name == "task_app_test_db"
 
+
 """cors set-up test"""
+
+
 def test_cors_allows_configured_frontend_origin(
     client: TestClient,
 ) -> None:
@@ -40,13 +40,8 @@ def test_cors_allows_configured_frontend_origin(
     )
 
     assert response.status_code == 200
-    assert (
-        response.headers["access-control-allow-origin"]
-        == allowed_origin
-    )
-    assert "POST" in response.headers[
-        "access-control-allow-methods"
-    ]
+    assert response.headers["access-control-allow-origin"] == allowed_origin
+    assert "POST" in response.headers["access-control-allow-methods"]
 
 
 def test_cors_rejects_unknown_origin(

@@ -43,7 +43,6 @@ def health_check() -> dict[str, str]:
 @app.get("/health/database")
 def database_health(db: DatabaseSession) -> dict[str, str]:
     db.execute(text("SELECT 1"))
-
     return {"status": "healthy"}
 
 

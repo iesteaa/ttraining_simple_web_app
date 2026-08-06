@@ -38,7 +38,7 @@ if settings.postgres_db != EXPECTED_TEST_DATABASE:
 
 
 @pytest.fixture(scope="session", autouse=True)
-def migrated_test_database() -> Generator[None, None, None]:
+def migrated_test_database() -> Generator[None]:
     """Apply all Alembic migrations before running the test session."""
 
     alembic_config = Config(str(BACKEND_ROOT / "alembic.ini"))
@@ -61,7 +61,7 @@ def migrated_test_database() -> Generator[None, None, None]:
 @pytest.fixture
 def db_session(
     migrated_test_database: None,
-) -> Generator[Session, None, None]:
+) -> Generator[Session]:
     """Provide one isolated database transaction for each test."""
 
     connection = engine.connect()
@@ -86,10 +86,10 @@ def db_session(
 @pytest.fixture
 def client(
     db_session: Session,
-) -> Generator[TestClient, None, None]:
+) -> Generator[TestClient]:
     """Use the isolated test Session for FastAPI requests."""
 
-    def override_get_db() -> Generator[Session, None, None]:
+    def override_get_db() -> Generator[Session]:
         yield db_session
 
     app.dependency_overrides[get_db] = override_get_db

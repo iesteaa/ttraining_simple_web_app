@@ -132,8 +132,9 @@ For test runs, the Compose test database service is named `db_test`.
 Development workflow summary:
 
 - Edit code in WSL and save normally.
+- Python files are formatted on save in VS Code, and imports are organized on save.
 - Use `docker compose up --build` for the application runtime.
-- Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for checks.
+- Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for lint, typecheck, and tests.
 - Keep `.env` and `.env.test` aligned with the Compose service names.
 
 Application addresses:
@@ -146,6 +147,7 @@ Frontend:     http://localhost:5173
 ```
 
 Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for backend and frontend checks; they execute through `docker compose exec`.
+Python formatting and import organization happen automatically on save in VS Code.
 
 Reproducibility notes:
 

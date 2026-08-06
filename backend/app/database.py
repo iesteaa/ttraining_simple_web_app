@@ -27,7 +27,7 @@ engine = create_engine(database_url)  # connection pool
 SessionLocal = sessionmaker(bind=engine)
 
 
-def get_db() -> Generator[Session, None, None]:
+def get_db() -> Generator[Session]:
     db = SessionLocal()
 
     try:

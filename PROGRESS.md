@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-08-03
-**Current phase:** Automated backend tests are complete; configuration and CORS are next
+**Last updated:** 2026-08-06
+**Current phase:** CORS is complete; frontend-backend wiring is next
 
 ## Project Status
 
@@ -16,7 +16,7 @@
 | APIRouter refactor | ✅ Complete |
 | SQLAlchemy and PostgreSQL persistence | ✅ Complete |
 | Automated backend testing | ✅ Complete |
-| CORS | ⏳ Pending |
+| CORS | ✅ Complete |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
 
@@ -95,7 +95,7 @@ GET    /health/database
 GET    /health
 ```
 
-## Immediate Next Checkpoint — Configuration and CORS
+## Immediate Next Checkpoint — Frontend Wiring
 
 - [x] Confirm the Compose test database service exists for isolation
 - [x] Install and configure Pytest
@@ -124,9 +124,9 @@ GET    /health
 
 ### CORS and Configuration
 
-- [ ] Create backend `.env.example`
-- [ ] Configure the Vue frontend origin
-- [ ] Verify browser requests to the backend
+- [x] Create backend `.env.example`
+- [x] Configure the Vue frontend origin
+- [x] Verify browser requests to the backend
 
 ### Frontend Wiring
 

@@ -19,6 +19,18 @@ This frontend is part of the project-wide Docker Compose workflow. Use the root 
 
 TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
+### Project Quality Commands
+
+The frontend scripts are used both locally and through the workspace tasks in the root project.
+
+- Format check: `npm run format:check`
+- Format: `npm run format`
+- Lint: `npm run lint`
+- Type check: `npm run type-check`
+- Unit tests: `npm run test:unit`
+
+In Docker Compose, the same checks are run through `docker compose exec frontend ...`.
+
 ## Customize configuration
 
 See [Vite Configuration Reference](https://vite.dev/config/).

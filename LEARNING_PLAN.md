@@ -284,7 +284,7 @@ DELETE success and missing task
 
 ## Phase 7 — Configuration and CORS
 
-**Status:** Pending
+**Status:** Complete
 
 ### Concepts
 
@@ -304,11 +304,11 @@ DELETE success and missing task
 
 ### Checkpoint
 
-- [ ] Backend configuration is not hardcoded unnecessarily
-- [ ] `.env` is ignored by Git
-- [ ] `.env.example` documents required variables
-- [ ] Vue origin is allowed by CORS
-- [ ] Browser request succeeds without a CORS error
+- [x] Backend configuration is not hardcoded unnecessarily
+- [x] `.env` is ignored by Git
+- [x] `.env.example` documents required variables
+- [x] Vue origin is allowed by CORS
+- [x] Browser request succeeds without a CORS error
 
 ---
 

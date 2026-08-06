@@ -51,7 +51,7 @@ FastAPI CRUD API              ✅ Complete
 SQLAlchemy + PostgreSQL       ✅ Complete
 Docker Compose runtime        ✅ Complete
 Automated backend tests       ✅ Complete
-CORS configuration            ⏳ Pending
+CORS configuration            ✅ Complete
 Frontend-backend wiring       ⏳ Pending
 ```
 
@@ -94,6 +94,40 @@ Source of truth:
 - Docker Compose services for backend, frontend, and database.
 - VS Code tasks that run format, lint, typecheck, and tests inside containers.
 - Local WSL editing with containerized application runtime.
+
+## Development Tooling
+
+The project uses separate quality-check commands for backend and frontend code. Some checks run automatically when you save files in VS Code, while others are exposed as VS Code tasks for verification before commit.
+
+### Backend
+
+- Format on save: VS Code formats Python files automatically with Ruff when you save them.
+- Format check: `docker compose exec backend env RUFF_CACHE_DIR=/tmp/ruff-cache python -m ruff format --check .`
+- Lint: `docker compose exec backend python -m ruff check .`
+- Type check: `docker compose exec backend python -m mypy .`
+- Tests: `docker compose exec backend python -m pytest -q`
+
+How to use it:
+
+1. Open a Python file in the backend.
+2. Make your changes and save the file to let VS Code apply Ruff formatting automatically.
+
+OR : 
+Ctrl + Shift + P -> Tasks: Run Task
+1. Run the `backend: format check` task in VS Code before committing to confirm the file still matches the formatter.
+2. Run `backend: checks` when you want the full backend verification sequence.
+
+### Frontend
+
+- Format check: `docker compose exec frontend yarn format:check`
+- Lint: `docker compose exec frontend yarn lint`
+- Type check: `docker compose exec frontend yarn type-check`
+- Unit tests: `docker compose exec frontend yarn test:unit`
+
+### Workspace tasks
+
+- `backend: checks` runs backend format, lint, typecheck, and tests in sequence.
+- `frontend: checks` runs frontend format, lint, and typecheck in sequence.
 
 ## Implemented API
 
@@ -161,17 +195,18 @@ Reproducibility notes:
 
 ## Next Stage
 
-The next stage is **Configuration and CORS**.
+The next stage is **First Frontend-Backend Wiring**.
 
-The goal is to keep runtime configuration explicit and allow browser-based requests from the Vue frontend.
+The goal is to start connecting the Vue frontend to the FastAPI backend with a typed API service and task UI.
 
 Planned focus:
 
 ```text
-Backend settings
-.env example files
-Allowed frontend origin
-CORS policy
+Typed API client
+GET /tasks
+POST /tasks
+PATCH /tasks/{task_id}
+DELETE /tasks/{task_id}
 ```
 
 ## Repository Principle

@@ -49,7 +49,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: "3.12.10"
+          python-version: "3.13"
           cache: "pip"
           cache-dependency-path: |
             backend/requirements.txt
@@ -59,6 +59,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
+
+      - name: Run backend formatter check
+        run: |
+          RUFF_CACHE_DIR=/tmp/ruff-cache python -m ruff format --check .
+
+      - name: Run backend lint check
+        run: |
+          RUFF_CACHE_DIR=/tmp/ruff-cache python -m ruff check .
+
+      - name: Run backend type check
+        run: |
+          MYPY_CACHE_DIR=/tmp/mypy-cache python -m mypy .
 
       - name: Run backend tests
         run: |

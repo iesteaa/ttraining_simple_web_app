@@ -32,7 +32,7 @@ JSON response
 Vue state and UI update
 ```
 
-The diagram above describes the intended end-to-end flow for the next stage. At the moment, the Vue app is still the starter template, so the frontend-backend wiring work is pending.
+The diagram above describes the intended end-to-end flow for the later integration stage. The immediate next step is to implement a dev container as the VS Code workspace so the project can be opened and developed inside a containerized environment.
 
 ## Quick Start
 
@@ -61,10 +61,11 @@ Docker Compose runtime        ✅ Complete
 Automated backend tests       ✅ Complete
 CORS configuration            ✅ Complete
 Frontend scaffold             ✅ Complete
+Dev container workspace       ⏳ Pending
 Frontend-backend wiring       ⏳ Pending
 ```
 
-The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, while VS Code stays local in WSL. The frontend scaffold is present, but it still needs the API client and task UI work described in the next stage.
+The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, while VS Code stays local in WSL. The frontend scaffold is present, but it still needs the API client and task UI work after the dev container workspace stage is completed.
 
 ## Technology Stack
 
@@ -213,21 +214,20 @@ Reproducibility notes:
 
 ## Next Stage
 
-The next stage is **First Frontend-Backend Wiring**.
+The next stage is **Dev Container Workspace**.
 
-The goal is to start connecting the Vue frontend to the FastAPI backend with a typed API service and task UI.
+The goal is to move the project into a proper VS Code dev container workspace so the editor, tools, and application environment can run from the same containerized setup.
 
 Planned focus:
 
 ```text
-Typed API client
-GET /tasks
-POST /tasks
-PATCH /tasks/{task_id}
-DELETE /tasks/{task_id}
+Dev container workspace
+VS Code opens inside container
+Shared toolchain and environment
+Project tasks run in the container workspace
 ```
 
-At this point the backend API is ready for integration work, and the frontend still needs the API service, task list, task form, completion toggle, delete action, and loading or error states.
+After that workspace step is in place, the backend API is ready for frontend integration work, and the frontend still needs the API service, task list, task form, completion toggle, delete action, and loading or error states.
 
 ## Repository Principle
 

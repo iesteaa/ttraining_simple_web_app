@@ -312,7 +312,37 @@ DELETE success and missing task
 
 ---
 
-## Phase 8 — First Frontend-Backend Wiring
+## Phase 8 — Dev Container Workspace
+
+**Status:** Pending
+
+The project currently runs with VS Code in WSL and the application inside Docker Compose. This phase moves the editor workspace itself into a dev container so the development environment is containerized as well.
+
+### Concepts
+
+- VS Code dev container
+- Workspace folder inside a container
+- Containerized editor tooling
+- Reproducible development environment
+- Shared commands between editor and runtime
+
+### Implementation Goals
+
+- Create a dev container configuration for the repository
+- Open the project as a VS Code dev container workspace
+- Keep the backend and frontend commands usable inside the containerized workspace
+- Preserve the existing Docker Compose runtime for the application services
+
+### Checkpoint
+
+- [ ] Dev container configuration exists
+- [ ] The project opens successfully as a container workspace
+- [ ] Workspace tasks still work in the containerized setup
+- [ ] Backend and frontend development commands still run in the expected environment
+
+---
+
+## Phase 9 — First Frontend-Backend Wiring
 
 **Status:** Pending
 
@@ -347,7 +377,7 @@ Vue → DELETE /tasks/{task_id}
 
 ---
 
-## Phase 9 — Better Backend Structure
+## Phase 10 — Better Backend Structure
 
 **Status:** Pending
 
@@ -372,7 +402,7 @@ This phase starts after the first complete frontend-backend flow works.
 
 ---
 
-## Phase 10 — Database Migration and Production-Oriented Features
+## Phase 11 — Database Migration and Production-Oriented Features
 
 **Status:** Pending
 

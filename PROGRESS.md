@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
 **Last updated:** 2026-08-07
-**Current phase:** Frontend scaffold is ready; frontend-backend wiring is next
+**Current phase:** Dev container workspace is next
 
 ## Project Status
 
@@ -18,6 +18,7 @@
 | Automated backend testing | ✅ Complete |
 | CORS | ✅ Complete |
 | Frontend scaffold | ✅ Complete |
+| Dev container workspace | ⏳ Pending |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
 

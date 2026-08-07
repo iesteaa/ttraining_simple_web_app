@@ -6,7 +6,13 @@ The repository is written as a learning log, but it is also intended to be reada
 
 ## Overview
 
-Current application flow:
+Current state:
+
+- The backend is fully implemented with FastAPI, SQLAlchemy, PostgreSQL, and automated tests.
+- The frontend exists as a Vue 3 + TypeScript scaffold, but it is not yet wired to the backend.
+- Docker Compose is the main runtime for local development.
+
+Target application flow:
 
 ```text
 User interaction
@@ -25,6 +31,8 @@ JSON response
       ↓
 Vue state and UI update
 ```
+
+The diagram above describes the intended end-to-end flow for the next stage. At the moment, the Vue app is still the starter template, so the frontend-backend wiring work is pending.
 
 ## Quick Start
 
@@ -52,10 +60,11 @@ SQLAlchemy + PostgreSQL       ✅ Complete
 Docker Compose runtime        ✅ Complete
 Automated backend tests       ✅ Complete
 CORS configuration            ✅ Complete
+Frontend scaffold             ✅ Complete
 Frontend-backend wiring       ⏳ Pending
 ```
 
-The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, while VS Code stays local in WSL.
+The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, while VS Code stays local in WSL. The frontend scaffold is present, but it still needs the API client and task UI work described in the next stage.
 
 ## Technology Stack
 
@@ -66,7 +75,7 @@ The backend persists task data through SQLAlchemy and PostgreSQL. The applicatio
 | Database | PostgreSQL, SQLAlchemy, Alembic |
 | Runtime | Docker, Docker Compose |
 | Testing | Pytest, FastAPI TestClient, Vitest |
-| Tooling | Black, Ruff, ESLint, Oxlint, Prettier |
+| Tooling | Ruff, ESLint, Oxlint, Prettier |
 | Development environment | Visual Studio Code, WSL Ubuntu / Bash |
 
 ## Version Requirements
@@ -102,6 +111,7 @@ The project uses separate quality-check commands for backend and frontend code. 
 ### Backend
 
 - Format on save: VS Code formats Python files automatically with Ruff when you save them.
+- Import sorting on save: VS Code also applies `source.organizeImports` for Python files, so import cleanup happens alongside formatting.
 - Format check: `docker compose exec backend env RUFF_CACHE_DIR=/tmp/ruff-cache python -m ruff format --check .`
 - Lint: `docker compose exec backend python -m ruff check .`
 - Type check: `docker compose exec backend python -m mypy .`
@@ -110,10 +120,9 @@ The project uses separate quality-check commands for backend and frontend code. 
 How to use it:
 
 1. Open a Python file in the backend.
-2. Make your changes and save the file to let VS Code apply Ruff formatting automatically.
+2. Make your changes and save the file to let VS Code apply Ruff formatting and import sorting automatically.
 
-OR : 
-Ctrl + Shift + P -> Tasks: Run Task
+Or use `Ctrl + Shift + P` -> `Tasks: Run Task`.
 1. Run the `backend: format check` task in VS Code before committing to confirm the file still matches the formatter.
 2. Run `backend: checks` when you want the full backend verification sequence.
 
@@ -123,6 +132,14 @@ Ctrl + Shift + P -> Tasks: Run Task
 - Lint: `docker compose exec frontend yarn lint`
 - Type check: `docker compose exec frontend yarn type-check`
 - Unit tests: `docker compose exec frontend yarn test:unit`
+
+The frontend package also exposes local equivalents through `frontend/package.json`:
+
+- `yarn dev`
+- `yarn build`
+- `yarn lint`
+- `yarn format:check`
+- `yarn test:unit`
 
 ### Workspace tasks
 
@@ -159,6 +176,7 @@ POSTGRES_PASSWORD
 POSTGRES_DB
 POSTGRES_HOST
 POSTGRES_PORT
+CORS_ORIGINS
 ```
 
 For test runs, the Compose test database service is named `db_test`.
@@ -208,6 +226,8 @@ POST /tasks
 PATCH /tasks/{task_id}
 DELETE /tasks/{task_id}
 ```
+
+At this point the backend API is ready for integration work, and the frontend still needs the API service, task list, task form, completion toggle, delete action, and loading or error states.
 
 ## Repository Principle
 

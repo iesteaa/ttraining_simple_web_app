@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-08-06
-**Current phase:** CORS is complete; frontend-backend wiring is next
+**Last updated:** 2026-08-07
+**Current phase:** Frontend scaffold is ready; frontend-backend wiring is next
 
 ## Project Status
 
@@ -17,6 +17,7 @@
 | SQLAlchemy and PostgreSQL persistence | ✅ Complete |
 | Automated backend testing | ✅ Complete |
 | CORS | ✅ Complete |
+| Frontend scaffold | ✅ Complete |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
 
@@ -183,6 +184,46 @@ Copy this section after each learning session.
 
 - The next smallest task is:
 ```
+
+## Session: 2026-08-07 — Documentation Sync for Supervisor Review
+
+### Goal
+
+- Align the human-facing documentation with the current backend-complete, frontend-scaffold-only state of the project.
+
+### Changes Made
+
+- File changed: `README.md`
+- File changed: `LEARNING_PLAN.md`
+- File changed: `PROGRESS.md`
+- File changed: `frontend/README.md`
+- Documentation now reflects the actual FastAPI, SQLAlchemy, PostgreSQL, Docker Compose, and Vue scaffold status.
+
+### Concepts Learned
+
+- A project README should distinguish between finished backend work and pending frontend wiring.
+- Progress logs are more useful when they track the real implementation state instead of the intended state.
+
+### Tests Performed
+
+- [x] Verified documentation against `backend/main.py`, `backend/app/routers/tasks.py`, `backend/app/schemas.py`, `compose.yaml`, and frontend package scripts.
+- [x] Checked that referenced VS Code task names still match `.vscode/tasks.json`.
+
+### Problems and Debugging
+
+- Error or unexpected behavior: the documentation still implied the frontend was already wired to the backend.
+- Root cause: the docs had not been updated after backend work completed.
+- Fix: rewrote the documentation to clearly separate the implemented backend from the pending frontend integration.
+
+### Result
+
+- [x] Completed
+
+### Next Action
+
+- The next smallest task is: implement the typed frontend API service and task UI.
+
+---
 
 ## Session: 2026-07-30 — Documentation Sync for Persistence Layer
 

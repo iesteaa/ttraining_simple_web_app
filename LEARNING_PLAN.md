@@ -316,6 +316,8 @@ DELETE success and missing task
 
 **Status:** Pending
 
+The Vue frontend scaffold already exists. This phase turns that starter app into a real task UI that talks to the backend.
+
 ### Concepts
 
 - `fetch` or API client function

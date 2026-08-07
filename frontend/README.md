@@ -1,6 +1,6 @@
 # frontend
 
-This frontend is part of the project-wide Docker Compose workflow. Use the root [README.md](../README.md) for the primary setup instructions.
+This frontend is part of the project-wide Docker Compose workflow. The app is still the starter scaffold, so use the root [README.md](../README.md) for the project-wide status and integration plan.
 
 ## Recommended IDE Setup
 
@@ -23,11 +23,11 @@ TypeScript cannot handle type information for `.vue` imports by default, so we r
 
 The frontend scripts are used both locally and through the workspace tasks in the root project.
 
-- Format check: `npm run format:check`
-- Format: `npm run format`
-- Lint: `npm run lint`
-- Type check: `npm run type-check`
-- Unit tests: `npm run test:unit`
+- Format check: `yarn format:check`
+- Format: `yarn format`
+- Lint: `yarn lint`
+- Type check: `yarn type-check`
+- Unit tests: `yarn test:unit`
 
 In Docker Compose, the same checks are run through `docker compose exec frontend ...`.
 
@@ -38,7 +38,7 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 ## Project Setup
 
 ```sh
-npm install
+yarn install
 ```
 
 When working through Docker Compose, dependency installation happens inside the frontend container. The root workflow is:
@@ -50,7 +50,7 @@ docker compose up --build
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 In the Compose workflow, the equivalent dev server is started by the `frontend` service.
@@ -58,13 +58,13 @@ In the Compose workflow, the equivalent dev server is started by the `frontend` 
 ### Type-Check, Compile and Minify for Production
 
 ```sh
-npm run build
+yarn build
 ```
 
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
-npm run test:unit
+yarn test:unit
 ```
 
 The project also exposes this through Docker Compose-backed workspace tasks.
@@ -72,5 +72,5 @@ The project also exposes this through Docker Compose-backed workspace tasks.
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+yarn lint
 ```

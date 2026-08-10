@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-08-07
-**Current phase:** Dev container workspace is next
+**Last updated:** 2026-08-10
+**Current phase:** Dev container workspace verification
 
 ## Project Status
 
@@ -18,7 +18,7 @@
 | Automated backend testing | ✅ Complete |
 | CORS | ✅ Complete |
 | Frontend scaffold | ✅ Complete |
-| Dev container workspace | ⏳ Pending |
+| Dev container workspace | ⏳ In verification |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
 
@@ -106,6 +106,14 @@ GET    /health
 - [x] Test successful CRUD behavior
 - [x] Test validation and missing-resource behavior
 - [x] Confirm the test suite runs from one command
+
+## Dev Container Implementation Notes
+
+- Added `.devcontainer/devcontainer.json` with workspace mount to `/workspace/simple-web-app`.
+- Added `.devcontainer/Dockerfile` with Git, Python, and Node.js tooling.
+- Added Dev Containers DOOD feature to provide Docker CLI and Docker Compose CLI in the workspace.
+- Added DOOD socket mount (`/var/run/docker.sock`) so `docker compose` commands can run from the dev container terminal.
+- Kept runtime architecture unchanged: `backend`, `frontend`, `db`, and `db_test` continue to run from root `compose.yaml`.
 
 ## Reproducibility Notes
 

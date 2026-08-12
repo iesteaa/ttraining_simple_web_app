@@ -55,6 +55,18 @@ docker compose exec frontend yarn lint
 
 If all commands run successfully, the dev container can control host Docker daemon correctly via mounted socket.
 
+## Verify SSH Agent Forwarding
+
+After rebuilding or reopening the dev container, run these commands from inside the dev container terminal:
+
+```bash
+echo "$SSH_AUTH_SOCK"
+ssh-add -l
+ssh -T git@github.com
+```
+
+The `ssh-add -l` command should show the keys loaded in the host SSH agent. If it still says the agent cannot be reached, confirm that the host session has an active `ssh-agent` and that a key has been added on the host before reopening the container.
+
 ## Expected Runtime Boundary
 
 - Dev container: editor, terminal, git, local tooling.

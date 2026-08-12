@@ -32,7 +32,7 @@ JSON response
 Vue state and UI update
 ```
 
-The diagram above describes the intended end-to-end flow for the later integration stage. The repository now includes a VS Code dev container workspace that uses Docker-outside-of-Docker (DOOD), while Docker Compose remains the runtime for application services.
+The diagram above describes the intended end-to-end flow for the later integration stage. The repository now includes a VS Code dev container workspace that uses Docker-outside-of-Docker (DOOD). Docker Compose remains the runtime for application services, and the workspace is being verified against that workflow.
 
 ## Quick Start
 
@@ -113,11 +113,11 @@ Docker Compose runtime        ✅ Complete
 Automated backend tests       ✅ Complete
 CORS configuration            ✅ Complete
 Frontend scaffold             ✅ Complete
-Dev container workspace       ✅ Configured
+Dev container workspace       ⏳ In verification
 Frontend-backend wiring       ⏳ Pending
 ```
 
-The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, and development is now designed to happen from the repository dev container workspace. The frontend scaffold is present, but it still needs the API client and task UI work.
+The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, and development now happens from the repository dev container workspace. That workspace is configured, but its behavior is still being verified against the Compose workflow. The frontend scaffold is present, but it still needs the API client and task UI work.
 
 ## Technology Stack
 
@@ -279,7 +279,7 @@ Quick troubleshooting:
 
 The next stage is **First Frontend-Backend Wiring**.
 
-The dev container workspace has been configured. The next goal is wiring the Vue frontend to the FastAPI backend.
+The dev container workspace has been configured and is being verified. The next goal is wiring the Vue frontend to the FastAPI backend.
 
 Planned focus:
 

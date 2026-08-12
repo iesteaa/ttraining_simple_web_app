@@ -316,7 +316,7 @@ DELETE success and missing task
 
 **Status:** In progress
 
-The project currently runs with VS Code in WSL and the application inside Docker Compose. This phase moves the editor workspace itself into a dev container so the development environment is containerized as well.
+The project currently uses Docker Compose for the application runtime, and the editor workspace is being moved into a dev container so the development environment is containerized as well.
 
 ### Concepts
 

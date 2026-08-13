@@ -5,13 +5,22 @@
     "context": ".."
   },
   "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/simple-web-app,type=bind,consistency=cached",
   "workspaceFolder": "/workspace/simple-web-app",
   "mounts": [
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    {
+      "target": "${containerWorkspaceFolder}/build",
+      "type": "volume"
+    },
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${localEnv:SSH_AUTH_SOCK},target=${localEnv:SSH_AUTH_SOCK},type=bind"
   ],
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}"
+  },
   "remoteUser": "vscode",
   "updateRemoteUserUID": true,
   "containerEnv": {

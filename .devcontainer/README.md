@@ -428,3 +428,7 @@ instead of generating and loading a new `id_rsa` key.
   https://qiita.com/ZuyaTepo/items/7beb120346210353bbe5
 - VS Code — Sharing Git credentials with your container  
   https://code.visualstudio.com/remote/advancedcontainers/sharing-git-credentials
+
+## Space for Improvement : 
+- frontend container couldnt be builded if we build with docker CLI in dev container -> this part of limitation from DooD concept, when we use bind mount. Problem statement "Docker Compose runs within the Dev Container's filesystem namespace, whereas the Docker daemon that actually creates the application container resides outside the Dev Container. Consequently, a bind-mount source path that is valid within the Dev Container is not necessarily valid for the Docker daemon."
+- build application container using host Docker compose instead. 

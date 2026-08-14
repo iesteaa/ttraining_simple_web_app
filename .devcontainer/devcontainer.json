@@ -44,6 +44,6 @@
       }
     }
   },
-  "postCreateCommand": "python3 -m pip install --user -r backend/requirements-dev.txt && npm ci --prefix frontend",
-  "postStartCommand": "docker compose ps"
+  "postCreateCommand": "sh .devcontainer/post-create.sh",
+  "postStartCommand": "sh .devcontainer/post-start.sh"
 }

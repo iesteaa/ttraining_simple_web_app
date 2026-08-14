@@ -1,8 +1,10 @@
 FROM node:22-bookworm
 
-WORKDIR /workspace/simple-web-app/frontend
+WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
+
+COPY . .
 
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]

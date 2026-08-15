@@ -59,6 +59,10 @@ services:
           target: /app/app
           initial_sync: true
         - action: sync
+          path: ./backend/tests
+          target: /app/tests
+          initial_sync: true
+        - action: sync
           path: ./backend/main.py
           target: /app/main.py
           initial_sync: true

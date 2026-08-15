@@ -27,8 +27,8 @@ When Docker Desktop is still initializing, or the WSL integration is not ready y
 4. Reopen the repository in Dev Container.
 5. After the container opens, verify the daemon is reachable:
 
-first time using dev-container
--- Dev containers:rebuild&reopen in container ---
+First time using the dev container:
+ - Run **Dev Containers: Rebuild and Reopen in Container**
 
 ```bash
 docker compose ps

@@ -1,7 +1,7 @@
 # エンドツーエンド Web 開発の進捗
 
-**最終更新:** 2026-08-07
-**現在のフェーズ:** Dev Container ワークスペースの実装が次
+**最終更新:** 2026-08-17
+**現在のフェーズ:** Dev Container ワークスペースの検証中
 
 ## プロジェクトの進捗
 
@@ -18,7 +18,7 @@
 | バックエンド自動テスト | ✅ 完了 |
 | CORS | ✅ 完了 |
 | フロントエンドのひな形 | ✅ 完了 |
-| Dev Container ワークスペース | ⏳ 保留 |
+| Dev Container ワークスペース | ⏳ 検証中 |
 | フロントエンドのタスク画面 | ⏳ 保留 |
 | フロントエンドとバックエンドの接続 | ⏳ 保留 |
 
@@ -110,7 +110,7 @@ GET    /health
 ## 再現性メモ
 
 - アプリ本体は Docker Compose で動かしている。
-- VS Code は WSL 側で使っている。
+- VS Code はホスト側から開き、VS Code Server と開発用ツールは Dev Container 内で動いている。
 - Python のバージョンは [`.python-version`](./.python-version) で固定している。
 - 実行時のバージョン情報は [README.md](./README.md) と Dockerfile に記載している。
 

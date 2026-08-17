@@ -1,6 +1,6 @@
 # frontend
 
-This frontend is part of the project-wide Docker Compose workflow. The app is still the starter scaffold, so use the root [README.md](../README.md) for the project-wide status and integration plan.
+This frontend is part of the project-wide Docker Compose workflow. The app is still the starter scaffold, and the current project status, dev container workflow, and integration plan live in the root [README.md](../README.md).
 
 ## Recommended IDE Setup
 

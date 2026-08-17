@@ -314,9 +314,9 @@ DELETE success and missing task
 
 ## Phase 8 — Dev Container Workspace
 
-**Status:** In progress
+**Status:** In verification
 
-The project currently uses Docker Compose for the application runtime, and the editor workspace is being moved into a dev container so the development environment is containerized as well.
+The project uses Docker Compose for the application runtime, and the editor workspace now runs in a dev container so the development environment is containerized as well. This phase verifies that the workspace, tooling, and runtime boundaries are working together.
 
 ### Concepts
 

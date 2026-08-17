@@ -10,7 +10,7 @@ Current state:
 
 - The backend is fully implemented with FastAPI, SQLAlchemy, PostgreSQL, and automated tests.
 - The frontend exists as a Vue 3 + TypeScript scaffold, but it is not yet wired to the backend.
-- Docker Compose is the main runtime for local development.
+- Docker Compose is the main runtime for application services, while the dev container workspace is used for editing and tooling.
 
 Target application flow:
 
@@ -117,11 +117,12 @@ Docker Compose runtime        ✅ Complete
 Automated backend tests       ✅ Complete
 CORS configuration            ✅ Complete
 Frontend scaffold             ✅ Complete
-Dev container workspace       ✅ Configured
+Dev container workspace       ⏳ In verification
 Frontend-backend wiring       ⏳ Pending
+Frontend task interface       ⏳ Pending
 ```
 
-The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, and development is now designed to happen from the repository dev container workspace. The frontend scaffold is present, but it still needs the API client and task UI work.
+The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, and development now happens from the repository dev container workspace. The frontend scaffold is present, but it still needs the API client and task UI work.
 
 ## Technology Stack
 
@@ -287,7 +288,7 @@ Quick troubleshooting:
 
 The next stage is **First Frontend-Backend Wiring**.
 
-The dev container workspace has been configured. The next goal is wiring the Vue frontend to the FastAPI backend.
+The dev container workspace is in verification. The next goal is wiring the Vue frontend to the FastAPI backend.
 
 Planned focus:
 

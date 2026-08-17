@@ -1,6 +1,6 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-08-12
+**Last updated:** 2026-08-17
 **Current phase:** Phase 8 — Dev Container Workspace
 
 ## Project Status
@@ -118,8 +118,7 @@ GET    /health
 ## Reproducibility Notes
 
 - App runtime runs in Docker Compose.
-- VS Code runs on the host machine.
-- VS Code Server and development tooling run inside the Dev Container.
+- VS Code opens the workspace on the host, while VS Code Server and development tooling run inside the Dev Container.
 - Python version is pinned via [`.python-version`](./.python-version).
 - Runtime versions are documented in [README.md](./README.md) and the Dockerfiles.
 

@@ -32,7 +32,7 @@ JSON レスポンス
 Vue の状態更新と UI 更新
 ```
 
-この図は、後の統合ステージで実現したい全体の流れを表しています。今すぐの次の作業は、VS Code のワークスペースとして dev container を実装し、コンテナ内で開発できるようにすることです。
+この図は、後の統合ステージで実現したい全体の流れを表しています。リポジトリにはすでに VS Code の dev container ワークスペースがあり、Docker-outside-of-Docker (DOOD) を使って開発できる状態になっています。
 
 ## クイックスタート
 
@@ -43,13 +43,20 @@ cp .env.example .env
 cp .env.test.example .env.test
 ```
 
-2. Docker Compose でアプリ全体を起動します。
+2. リポジトリを VS Code の dev container で開きます。
 
-```bash
-docker compose up --build
+```text
+Dev Containers: Reopen in Container
 ```
 
-3. VS Code は WSL 上でローカル起動したままにし、フォーマット、lint、typecheck、テストはワークスペースタスクを使います。これらのタスクは `docker compose exec` 経由で実行されます。
+3. dev container 内のターミナルで、Docker Compose でアプリ全体を起動します。
+
+```bash
+docker compose up -d --build
+docker compose watch --no-up
+```
+
+4. フォーマット、lint、typecheck、テストはワークスペースタスクを使います。これらのタスクは `docker compose exec` 経由で実行されます。
 
 ## 現在の状態
 
@@ -61,11 +68,12 @@ Docker Compose ランタイム     ✅ 完了
 自動バックエンドテスト       ✅ 完了
 CORS 設定                     ✅ 完了
 フロントエンドのひな形       ✅ 完了
-dev container ワークスペース  ⏳ 保留
+dev container ワークスペース  ⏳ 検証中
 フロントエンド接続           ⏳ 保留
+フロントエンド画面            ⏳ 保留
 ```
 
-バックエンドは SQLAlchemy と PostgreSQL で task データを保存しています。アプリ本体の実行環境は Docker Compose でコンテナ化されていますが、VS Code は WSL 上でローカルに使う形です。フロントエンドのひな形はありますが、dev container ワークスペースの段階が終わってから、API クライアントや task UI を実装する必要があります。
+バックエンドは SQLAlchemy と PostgreSQL で task データを保存しています。アプリ本体の実行環境は Docker Compose でコンテナ化され、開発時の編集環境は dev container ワークスペースで動いています。フロントエンドのひな形はありますが、API クライアントや task UI はまだこれからです。
 
 ## 技術スタック
 
@@ -77,7 +85,7 @@ dev container ワークスペース  ⏳ 保留
 | 実行環境 | Docker, Docker Compose |
 | テスト | Pytest, FastAPI TestClient, Vitest |
 | ツール | Ruff, ESLint, Oxlint, Prettier |
-| 開発環境 | Visual Studio Code, WSL Ubuntu / Bash |
+| 開発環境 | Visual Studio Code Dev Container (DOOD) |
 
 ## バージョン要件
 
@@ -161,13 +169,13 @@ dev container ワークスペース  ⏳ 保留
 
 ## Docker Compose でアプリを起動する
 
-このリポジトリでは、アプリ本体は Docker Compose で動かし、VS Code は WSL 上でローカルに使う構成になっています。いつも通りワークスペースで編集したら、プロジェクトルートから次を実行します。
+このリポジトリでは、アプリ本体は Docker Compose で動かし、VS Code は dev container ワークスペースで使います。いつも通りワークスペースで編集したら、プロジェクトルートから次を実行します。
 
 ```bash
 docker compose up --build
 ```
 
-backend と frontend は bind mount を使っているので、WSL 側のファイル変更はそのままコンテナ内に反映されます。
+backend と frontend は `develop.watch` を使っているので、dev container 側のファイル変更はそのまま実行中のコンテナへ反映されます。
 
 バックエンドは、ルートの `.env` ファイルから PostgreSQL の接続情報を読み込みます。Compose 内では `db` というサービス名でデータベースに接続します。
 
@@ -184,8 +192,8 @@ CORS_ORIGINS
 
 開発フローのまとめ:
 
-- WSL 上で編集して、そのまま保存する。
-- アプリ本体は `docker compose up --build` で起動する。
+- dev container 上で編集して、そのまま保存する。
+- アプリ本体は `docker compose up -d --build` と `docker compose watch --no-up` で起動する。
 - チェックは [`.vscode/tasks.json`](./.vscode/tasks.json) の VS Code タスクを使う。
 - `.env` と `.env.test` は Compose のサービス名と合わせておく。
 
@@ -214,20 +222,20 @@ Frontend:     http://localhost:5173
 
 ## 次のステージ
 
-次の作業は **Dev Container ワークスペース** です。
+次の作業は **フロントエンドとバックエンドの最初の接続** です。
 
-目的は、VS Code の dev container ワークスペースとしてプロジェクトを動かせるようにし、エディタ、ツール、アプリの開発環境を同じコンテナ化された環境にそろえることです。
+目的は、Vue のフロントエンドを FastAPI バックエンドに接続し、task 一覧と作成・更新・削除の最初の UI を作ることです。
 
 予定している内容:
 
 ```text
-dev container ワークスペース
-VS Code をコンテナ内で開く
-ツールチェーンと実行環境を共有する
-ワークスペースのタスクをコンテナ内で動かす
+Vue → GET /tasks
+Vue → POST /tasks
+Vue → PATCH /tasks/{task_id}
+Vue → DELETE /tasks/{task_id}
 ```
 
-このワークスペースの段階が終わったら、バックエンド API はフロントエンド接続に進める状態になります。その後に、API サービス、task 一覧、task フォーム、完了切り替え、削除操作、ローディング表示、エラー表示を実装していきます。
+このワークスペースの段階が終わったら、task 一覧、task フォーム、完了切り替え、削除操作、ローディング表示、エラー表示を実装していきます。
 
 ## リポジトリの考え方
 

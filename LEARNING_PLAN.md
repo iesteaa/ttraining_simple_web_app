@@ -314,9 +314,9 @@ DELETE success and missing task
 
 ## Phase 8 — Dev Container Workspace
 
-**Status:** Pending
+**Status:** In progress
 
-The project currently runs with VS Code in WSL and the application inside Docker Compose. This phase moves the editor workspace itself into a dev container so the development environment is containerized as well.
+The project currently uses Docker Compose for the application runtime, and the editor workspace is being moved into a dev container so the development environment is containerized as well.
 
 ### Concepts
 
@@ -328,14 +328,15 @@ The project currently runs with VS Code in WSL and the application inside Docker
 
 ### Implementation Goals
 
-- Create a dev container configuration for the repository
-- Open the project as a VS Code dev container workspace
-- Keep the backend and frontend commands usable inside the containerized workspace
-- Preserve the existing Docker Compose runtime for the application services
+- [x] Create a dev container configuration for the repository
+- [ ] Open the project as a VS Code dev container workspace
+- [x] Keep the backend and frontend commands usable inside the containerized workspace
+- [x] Preserve the existing Docker Compose runtime for the application services
+- [x] Use Docker-outside-of-Docker so `docker compose` commands can run from the dev container terminal
 
 ### Checkpoint
 
-- [ ] Dev container configuration exists
+- [x] Dev container configuration exists
 - [ ] The project opens successfully as a container workspace
 - [ ] Workspace tasks still work in the containerized setup
 - [ ] Backend and frontend development commands still run in the expected environment

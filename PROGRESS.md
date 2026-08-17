@@ -1,7 +1,7 @@
 # End-to-End Web Development Progress
 
-**Last updated:** 2026-08-07
-**Current phase:** Dev container workspace is next
+**Last updated:** 2026-08-12
+**Current phase:** Phase 8 — Dev Container Workspace
 
 ## Project Status
 
@@ -18,7 +18,7 @@
 | Automated backend testing | ✅ Complete |
 | CORS | ✅ Complete |
 | Frontend scaffold | ✅ Complete |
-| Dev container workspace | ⏳ Pending |
+| Dev container workspace | ⏳ In verification |
 | Frontend task interface | ⏳ Pending |
 | Frontend-backend wiring | ⏳ Pending |
 
@@ -107,10 +107,19 @@ GET    /health
 - [x] Test validation and missing-resource behavior
 - [x] Confirm the test suite runs from one command
 
+## Dev Container Implementation Notes
+
+- Added `.devcontainer/devcontainer.json` with workspace mount to `/workspace/simple-web-app`.
+- Added `.devcontainer/Dockerfile` with Git, Python, and Node.js tooling.
+- Added Dev Containers DOOD feature to provide Docker CLI and Docker Compose CLI in the workspace.
+- Added DOOD socket mount (`/var/run/docker.sock`) so `docker compose` commands can run from the dev container terminal.
+- Kept runtime architecture unchanged: `backend`, `frontend`, `db`, and `db_test` continue to run from root `compose.yaml`.
+
 ## Reproducibility Notes
 
 - App runtime runs in Docker Compose.
-- VS Code stays local in WSL.
+- VS Code runs on the host machine.
+- VS Code Server and development tooling run inside the Dev Container.
 - Python version is pinned via [`.python-version`](./.python-version).
 - Runtime versions are documented in [README.md](./README.md) and the Dockerfiles.
 
@@ -223,6 +232,46 @@ Copy this section after each learning session.
 ### Next Action
 
 - The next smallest task is: implement the typed frontend API service and task UI.
+
+---
+
+## Session: 2026-08-12 — Documentation Status Sync
+
+### Goal
+
+- Align the project documentation with the current backend-complete, frontend-scaffold-only, dev-container-in-verification state.
+
+### Changes Made
+
+- File changed: `README.md`
+- File changed: `PROGRESS.md`
+- File changed: `LEARNING_PLAN.md`
+- Updated the high-level status language so the dev container is described as verified separately from the backend and frontend work.
+- Removed stale WSL-specific wording from the progress notes.
+
+### Concepts Learned
+
+- Status labels should distinguish between a feature being configured and a feature being verified.
+- Documentation should avoid environment assumptions that no longer match the active workspace.
+
+### Tests Performed
+
+- [x] Compared README, progress, and learning plan wording against the repository structure and current runtime model.
+- [x] Checked that the frontend still remains scaffold-only while the backend is complete.
+
+### Problems and Debugging
+
+- Error or unexpected behavior: the docs still mixed configured, verified, and pending states for the dev container workspace.
+- Root cause: the repository state had advanced, but the status wording had not been normalized across files.
+- Fix: rewrote the shared status language and updated the phase tracker.
+
+### Result
+
+- [x] Completed
+
+### Next Action
+
+- The next smallest task is: verify the frontend wiring implementation plan against the current Vue scaffold.
 
 ---
 

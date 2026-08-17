@@ -41,7 +41,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    working_dir: /workspace/simple-web-app/backend
+    working_dir: /app
     command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
     env_file:
       - .env
@@ -52,23 +52,55 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
-    volumes:
-      - ./:/workspace/simple-web-app
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/app
+          target: /app/app
+          initial_sync: true
+        - action: sync
+          path: ./backend/tests
+          target: /app/tests
+          initial_sync: true
+        - action: sync
+          path: ./backend/main.py
+          target: /app/main.py
+          initial_sync: true
+        - action: rebuild
+          path: ./backend/requirements.txt
+        - action: rebuild
+          path: ./backend/requirements-dev.txt
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    working_dir: /workspace/simple-web-app/frontend
+    working_dir: /app
     command: npm run dev -- --host 0.0.0.0 --port 5173
     depends_on:
       - backend
     ports:
       - "5173:5173"
-    volumes:
-      - ./frontend:/workspace/simple-web-app/frontend
-      - frontend_node_modules:/workspace/simple-web-app/frontend/node_modules
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+          initial_sync: true
+        - action: sync
+          path: ./frontend/public
+          target: /app/public
+          initial_sync: true
+        - action: rebuild
+          path: ./frontend/package.json
+        - action: rebuild
+          path: ./frontend/package-lock.json
+        - action: rebuild
+          path: ./frontend/vite.config.ts
+        - action: rebuild
+          path: ./frontend/tsconfig.json
+        - action: rebuild
+          path: ./frontend/tsconfig.app.json
 
 volumes:
   simple-web-app_postgres_data:
-  frontend_node_modules:

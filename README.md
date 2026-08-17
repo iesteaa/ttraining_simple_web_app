@@ -32,7 +32,9 @@ JSON response
 Vue state and UI update
 ```
 
-The diagram above describes the intended end-to-end flow for the later integration stage. The immediate next step is to implement a dev container as the VS Code workspace so the project can be opened and developed inside a containerized environment.
+The diagram above describes the intended end-to-end flow for the later integration stage. The repository now includes a VS Code dev container workspace that uses Docker-outside-of-Docker (DOOD), while Docker Compose remains the runtime for application services.
+
+If Docker Desktop is not open, start it first before reopening the dev container. See [Docker Daemon Not Ready For Dev Container](docs/docker-daemon-devcontainer.md) for the exact failure mode and fix.
 
 ## Quick Start
 
@@ -43,13 +45,67 @@ cp .env.example .env
 cp .env.test.example .env.test
 ```
 
-2. Start the full application runtime with Docker Compose:
+2. Open this repository in the dev container workspace:
 
-```bash
-docker compose up --build
+```text
+Ctrl + Shift + P
+Dev Containers: Reopen in Container
 ```
 
-3. Keep VS Code running locally in WSL and use the workspace tasks for format, lint, typecheck, and tests. Those tasks execute through `docker compose exec`.
+3. Inside the dev container terminal, start the full application runtime with Docker Compose:
+
+```bash
+docker compose up -d --build
+docker compose watch --no-up
+```
+
+4. Use the existing tasks and Compose commands as usual from inside the dev container (`docker compose ps`, `docker compose exec ...`).
+
+## Prerequisites
+
+Prepare these before onboarding:
+
+- Docker Desktop (or Docker Engine + Docker Compose) is installed and running on the host.
+- Visual Studio Code is installed.
+- VS Code extension `Dev Containers` (`ms-vscode-remote.remote-containers`) is installed.
+- The repository is cloned locally.
+- Environment files exist at project root:
+
+```bash
+cp .env.example .env
+cp .env.test.example .env.test
+```
+
+## Developer Onboarding (Dev Container + DOOD)
+
+Use this flow for new team members:
+
+1. Open the repository in VS Code.
+2. Run `Dev Containers: Reopen in Container` from Command Palette.
+3. Wait until the first build and `postCreateCommand` finish.
+4. Open a terminal in the dev container and start runtime services:
+
+```bash
+docker compose up -d --build
+docker compose watch --no-up
+docker compose ps
+```
+
+5. Run quality checks from VS Code tasks:
+      - `backend: checks`
+      - `frontend: checks`
+
+## Verify DOOD Works
+
+From terminal inside the dev container, these commands must work without socket permission errors:
+
+```bash
+docker ps
+docker compose ps
+docker compose logs backend --tail 50
+docker compose exec backend python -m pytest -q
+docker compose exec frontend yarn lint
+```
 
 ## Current Status
 
@@ -61,11 +117,11 @@ Docker Compose runtime        ✅ Complete
 Automated backend tests       ✅ Complete
 CORS configuration            ✅ Complete
 Frontend scaffold             ✅ Complete
-Dev container workspace       ⏳ Pending
+Dev container workspace       ✅ Configured
 Frontend-backend wiring       ⏳ Pending
 ```
 
-The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, while VS Code stays local in WSL. The frontend scaffold is present, but it still needs the API client and task UI work after the dev container workspace stage is completed.
+The backend persists task data through SQLAlchemy and PostgreSQL. The application runtime is containerized with Docker Compose, and development is now designed to happen from the repository dev container workspace. The frontend scaffold is present, but it still needs the API client and task UI work.
 
 ## Technology Stack
 
@@ -77,7 +133,7 @@ The backend persists task data through SQLAlchemy and PostgreSQL. The applicatio
 | Runtime | Docker, Docker Compose |
 | Testing | Pytest, FastAPI TestClient, Vitest |
 | Tooling | Ruff, ESLint, Oxlint, Prettier |
-| Development environment | Visual Studio Code, WSL Ubuntu / Bash |
+| Development environment | Visual Studio Code Dev Container (DOOD) |
 
 ## Version Requirements
 
@@ -103,7 +159,7 @@ Source of truth:
 - Automated backend tests with isolated database fixtures.
 - Docker Compose services for backend, frontend, and database.
 - VS Code tasks that run format, lint, typecheck, and tests inside containers.
-- Local WSL editing with containerized application runtime.
+- Dev container workspace with DOOD (`docker.sock` mount) while keeping Compose as runtime.
 
 ## Development Tooling
 
@@ -161,13 +217,14 @@ The frontend package also exposes local equivalents through `frontend/package.js
 
 ## Run the Application with Docker Compose
 
-This repository is set up so the application runtime runs in Docker Compose while VS Code stays local in WSL. Edit code in the workspace as usual, then start the services from the project root:
+This repository is set up so the application runtime runs in Docker Compose, while VS Code runs inside a dev container workspace. Edit code from the dev container, then start services from the project root terminal inside that workspace:
 
 ```bash
-docker compose up --build
+docker compose up -d --build
+docker compose watch --no-up
 ```
 
-The backend and frontend use bind mounts, so file changes in WSL are reflected inside the containers.
+The backend and frontend use `develop.watch` sync rules, so file changes from the dev container workspace are synchronized into runtime containers without relying on bind mounts.
 
 The backend expects PostgreSQL connection values from the root `.env` file, and inside Compose it reaches the database through the service name `db`:
 
@@ -184,9 +241,9 @@ For test runs, the Compose test database service is named `db_test`.
 
 Development workflow summary:
 
-- Edit code in WSL and save normally.
-- Use `docker compose up --build` for the application runtime.
-- Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for checks.
+- Reopen the project in the dev container workspace.
+- Use `docker compose up -d --build` then `docker compose watch --no-up` for the application runtime from the dev container terminal.
+- Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for checks (they call `docker compose exec`).
 - Keep `.env` and `.env.test` aligned with the Compose service names.
 
 Application addresses:
@@ -202,32 +259,46 @@ Use the VS Code tasks in [`.vscode/tasks.json`](./.vscode/tasks.json) for backen
 
 Reproducibility notes:
 
-- `docker compose up --build` is the primary entry point for the app runtime.
+- `docker compose up -d --build` then `docker compose watch --no-up` is the primary entry point for app runtime with automatic code synchronization.
 - Backend and frontend dependencies are installed inside images, not on the host.
 - Python and Node versions are pinned or documented so the runtime matches across machines.
 - PostgreSQL runs as the Compose service `db`, and test runs use `db_test`.
+
+Quick troubleshooting:
+
+- Docker socket permission denied in dev container:
+      - Check host socket group with `ls -l /var/run/docker.sock`.
+      - Rebuild dev container (`Dev Containers: Rebuild Container`).
+- Compose services fail to start:
+      - Run `docker compose logs` and verify `.env` and `.env.test` exist.
+- Source code changes do not appear in the app:
+      - Ensure `docker compose watch --no-up` is running in a terminal session.
+      - Check `docker compose version`; `develop.watch` requires a recent Compose v2 release.
+- Ports are already in use (`5432`, `5433`, `8000`, `5173`):
+      - Stop conflicting services, then rerun `docker compose up -d --build`.
 
 ## Documentation
 
 - [`LEARNING_PLAN.md`](./LEARNING_PLAN.md): stage roadmap and learning checkpoints.
 - [`PROGRESS.md`](./PROGRESS.md): current progress, completed checkpoints, and next tasks.
+- [`.devcontainer/README.md`](./.devcontainer/README.md): dev container and DOOD details.
 
 ## Next Stage
 
-The next stage is **Dev Container Workspace**.
+The next stage is **First Frontend-Backend Wiring**.
 
-The goal is to move the project into a proper VS Code dev container workspace so the editor, tools, and application environment can run from the same containerized setup.
+The dev container workspace has been configured. The next goal is wiring the Vue frontend to the FastAPI backend.
 
 Planned focus:
 
 ```text
-Dev container workspace
-VS Code opens inside container
-Shared toolchain and environment
-Project tasks run in the container workspace
+Vue API client and typed requests
+Task list rendering from GET /tasks
+Create/update/delete task actions
+Loading and error feedback in UI
 ```
 
-After that workspace step is in place, the backend API is ready for frontend integration work, and the frontend still needs the API service, task list, task form, completion toggle, delete action, and loading or error states.
+The backend API is ready for integration work, and the frontend still needs the API service, task list, task form, completion toggle, delete action, and loading or error states.
 
 ## Repository Principle
 

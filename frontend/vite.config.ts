@@ -10,6 +10,18 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    watch: {
+      usePolling: true,
+    },
+    hmr: {
+      host: 'localhost',
+      clientPort: 5173,
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

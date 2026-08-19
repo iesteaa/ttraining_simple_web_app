@@ -78,7 +78,7 @@ cp .env.test.example .env.test
 
 ## Developer Onboarding (Dev Container + DOOD)
 
-Use this flow for new team members:
+Use this flow for first-timers:
 
 1. Open the repository in VS Code.
 2. Run `Dev Containers: Reopen in Container` from Command Palette.
@@ -91,7 +91,27 @@ docker compose watch --no-up
 docker compose ps
 ```
 
-5. Run quality checks from VS Code tasks:
+5. Verify and apply database migrations before treating the backend as ready:
+
+```bash
+docker compose exec backend alembic current
+docker compose exec backend alembic heads
+```
+
+If `alembic heads` shows a revision that is newer than `alembic current`, run:
+
+```bash
+docker compose exec backend alembic upgrade head
+docker compose exec backend alembic current
+```
+
+6. Check FastAPI to confirm the backend is responding correctly:
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+7. Run quality checks from VS Code tasks:
       - `backend: checks`
       - `frontend: checks`
 

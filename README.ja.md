@@ -56,7 +56,27 @@ docker compose up -d --build
 docker compose watch --no-up
 ```
 
-4. フォーマット、lint、typecheck、テストはワークスペースタスクを使います。これらのタスクは `docker compose exec` 経由で実行されます。
+4. アプリ本体を起動したら、まず migration の状態を確認します。
+
+```bash
+docker compose exec backend alembic current
+docker compose exec backend alembic heads
+```
+
+`alembic heads` が `alembic current` より新しい revision を示している場合は、次を実行します。
+
+```bash
+docker compose exec backend alembic upgrade head
+docker compose exec backend alembic current
+```
+
+5. FastAPI が正しく応答していることを確認します。
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+6. フォーマット、lint、typecheck、テストはワークスペースタスクを使います。これらのタスクは `docker compose exec` 経由で実行されます。
 
 ## 現在の状態
 
